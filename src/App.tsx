@@ -1,13 +1,14 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "./features/userSlice";
+import { login, logout, selectUser } from "./features/user/userSlice";
 import { auth, onAuthStateChanged } from "./firebase/config";
 import { useEffect } from "react";
 
 import "./App.css";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
 
 function App() {
   const user = useSelector(selectUser);
@@ -33,10 +34,13 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

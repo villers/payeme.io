@@ -2,7 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RootState, useAppDispatch } from "../app/store";
-import { userRegister } from "../features/user/userActions";
+import { registerAction } from "../features/auth/actions";
+import { selectAuth } from "../features/auth/slice";
 
 type form = {
   email: string;
@@ -10,11 +11,11 @@ type form = {
 };
 
 export const Register = () => {
-  const { loading, error } = useSelector((state: RootState) => state.user);
+  const { loading, error } = useSelector(selectAuth);
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<form>();
 
-  const submitForm: SubmitHandler<form> = (data) => dispatch(userRegister(data));
+  const submitForm: SubmitHandler<form> = (data) => dispatch(registerAction(data));
 
   return (
     <form onSubmit={handleSubmit(submitForm)}>

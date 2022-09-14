@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { userLogin, userRegister } from "./userActions";
+import { loginAction, registerAction } from "./actions";
 
 interface InitialState {
   loading: boolean;
@@ -16,8 +16,8 @@ const initialState: InitialState = {
   success: false, // for monitoring the registration process.
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const slice = createSlice({
+  name: "auth",
   initialState,
   reducers: {
     login: (state, action) => {
@@ -29,38 +29,40 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(userLogin.pending, (state) => {
+      .addCase(loginAction.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(userLogin.fulfilled, (state, action) => {
+      .addCase(loginAction.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
       })
-      .addCase(userLogin.rejected, (state, action) => {
+      .addCase(loginAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
 
     builder
-      .addCase(userRegister.pending, (state) => {
+      .addCase(registerAction.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(userRegister.fulfilled, (state, action) => {
+      .addCase(registerAction.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
+        console.log(state, action);
       })
-      .addCase(userRegister.rejected, (state, action) => {
+      .addCase(registerAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        console.log(state, action);
       });
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout } = slice.actions;
 
 // selectors
-export const selectUser = (state: RootState) => state.user.user;
+export const selectAuth = (state: RootState) => state.auth;
 
-export default userSlice.reducer;
+export default slice.reducer;

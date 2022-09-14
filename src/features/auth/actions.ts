@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "../../firebase/config";
+import { auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "../../firebase/config";
 
-export interface userLoginPayload {
+export interface LoginPayload {
   email: string;
   uid: string;
 }
 
-export interface userLoginQuery {
+export interface LoginQuery {
   email: string;
   password: string;
 }
 
-export const userLogin = createAsyncThunk<userLoginPayload, userLoginQuery>("user/login", ({ email, password }, { rejectWithValue }): any => {
+export const loginAction = createAsyncThunk<LoginPayload, LoginQuery>("auth/login", ({ email, password }, { rejectWithValue }): any => {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userAuth) => ({
       email: userAuth.user?.email,
@@ -22,17 +22,17 @@ export const userLogin = createAsyncThunk<userLoginPayload, userLoginQuery>("use
     });
 });
 
-export interface userRegisterPayload {
+export interface RegisterPayload {
   email: string;
   uid: string;
 }
 
-export interface userRegisterQuery {
+export interface RegisterQuery {
   email: string;
   password: string;
 }
 
-export const userRegister = createAsyncThunk<userRegisterPayload, userRegisterQuery>("user/register", ({ email, password }, { rejectWithValue }): any => {
+export const registerAction = createAsyncThunk<RegisterPayload, RegisterQuery>("auth/register", ({ email, password }, { rejectWithValue }): any => {
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userAuth) => ({
       email: userAuth.user?.email,

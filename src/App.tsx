@@ -1,34 +1,27 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
-import { login, logout, selectUser } from "./features/user/userSlice";
-import { auth, onAuthStateChanged } from "./firebase/config";
-import { useEffect } from "react";
+import { login, logout } from "./features/auth/slice";
+import { auth, onAuthStateChanged, signOut } from "./firebase/config";
+import { useCallback, useEffect } from "react";
 
 import "./App.css";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
+import { useAppDispatch } from "./app/store";
 
 function App() {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  // check at page load if a user is authenticated
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        // user is logged in, send the user's details to redux, store the current user in the state
         dispatch(
           login({
             email: userAuth.email,
             uid: userAuth.uid,
-            displayName: userAuth.displayName,
-            photoUrl: userAuth.photoURL,
           })
         );
-      } else {
-        dispatch(logout());
       }
     });
   }, []);
@@ -40,6 +33,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <button onClick={() => dispatch(logout())}>logout</button>
     </BrowserRouter>
   );
 }

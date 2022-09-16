@@ -1,5 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "../../firebase/config";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword} from "../../firebase/config";
 
 export interface LoginPayload {
   email: string;
@@ -11,7 +11,9 @@ export interface LoginQuery {
   password: string;
 }
 
-export const loginAction = createAsyncThunk<LoginPayload, LoginQuery>("auth/login", ({ email, password }, { rejectWithValue }): any => {
+export const loginAction = createAsyncThunk<LoginPayload, LoginQuery>("auth/login", ({email, password}, {rejectWithValue}): any => {
+
+
   return signInWithEmailAndPassword(auth, email, password)
     .then((userAuth) => ({
       email: userAuth.user?.email,
@@ -32,7 +34,7 @@ export interface RegisterQuery {
   password: string;
 }
 
-export const registerAction = createAsyncThunk<RegisterPayload, RegisterQuery>("auth/register", ({ email, password }, { rejectWithValue }): any => {
+export const registerAction = createAsyncThunk<RegisterPayload, RegisterQuery>("auth/register", ({email, password}, {rejectWithValue}): any => {
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userAuth) => ({
       email: userAuth.user?.email,
@@ -41,4 +43,17 @@ export const registerAction = createAsyncThunk<RegisterPayload, RegisterQuery>("
     .catch((err: any) => {
       return rejectWithValue(err.message);
     });
+});
+
+export const refreshAction = createAsyncThunk("auth/refresh", (): any => {
+  return onAuthStateChanged(auth, (userAuth) => {
+    if (userAuth) {
+      return ({
+        email: userAuth.email,
+        uid: userAuth.uid,
+      });
+    }
+    return {}
+  })
+
 });

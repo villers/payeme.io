@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { loginAction, registerAction } from "./actions";
+import {loginAction, refreshAction, registerAction} from "./actions";
 
 interface InitialState {
   loading: boolean;
@@ -56,6 +56,17 @@ export const slice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.log(state, action);
+      });
+
+    builder
+      .addCase(refreshAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(refreshAction.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action)
+        state.user = action.payload;
       });
   },
 });

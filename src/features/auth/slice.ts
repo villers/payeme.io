@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import {loginAction, refreshAction, registerAction} from "./actions";
+import { loginAction, logoutAction, refreshAction, registerAction } from "./actions";
 
 interface InitialState {
   loading: boolean;
@@ -19,14 +19,7 @@ const initialState: InitialState = {
 export const slice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
-    },
-    logout: (state) => {
-      state.user = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginAction.pending, (state) => {
@@ -55,7 +48,6 @@ export const slice = createSlice({
       .addCase(registerAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        console.log(state, action);
       });
 
     builder
@@ -65,13 +57,30 @@ export const slice = createSlice({
       })
       .addCase(refreshAction.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action)
         state.user = action.payload;
+      })
+      .addCase(refreshAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+
+    builder
+      .addCase(logoutAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = null;
+      })
+      .addCase(logoutAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { login, logout } = slice.actions;
+export const {} = slice.actions;
 
 // selectors
 export const selectAuth = (state: RootState) => state.auth;

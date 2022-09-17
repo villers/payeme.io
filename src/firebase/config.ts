@@ -26,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-if (location.hostname === "localhost") {
+if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectDatabaseEmulator(db, "localhost", 9000);
   connectAuthEmulator(auth, "http://localhost:9099");
 }

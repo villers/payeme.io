@@ -1,30 +1,22 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import { login, logout } from "./features/auth/slice";
-import { auth, onAuthStateChanged, signOut } from "./firebase/config";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import "./App.css";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { useAppDispatch } from "./app/store";
+import { logoutAction, refreshAction } from "./features/auth/actions";
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (userAuth) => {
-      if (userAuth) {
-        dispatch(
-          login({
-            email: userAuth.email,
-            uid: userAuth.uid,
-          })
-        );
-      }
-    });
-  }, []);
+    dispatch(refreshAction());
+  }, [dispatch]);
+
+  const handleLogout = () => dispatch(logoutAction());
 
   return (
     <BrowserRouter>
@@ -33,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-      <button onClick={() => dispatch(logout())}>logout</button>
+      <button onClick={handleLogout}>logout</button>
     </BrowserRouter>
   );
 }

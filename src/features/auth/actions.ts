@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "../../firebase/config";
+import firebase from "firebase/compat";
+import FirebaseError = firebase.FirebaseError;
 
 export interface LoginPayload {
   email: string;
@@ -17,8 +19,8 @@ export const loginAction = createAsyncThunk<LoginPayload, LoginQuery>("auth/logi
       email: userAuth.user?.email,
       uid: userAuth.user?.uid,
     }))
-    .catch((err: any) => {
-      rejectWithValue(err.message);
+    .catch((err: FirebaseError) => {
+      return rejectWithValue(err.message);
     });
 });
 

@@ -10,6 +10,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { connectDatabaseEmulator, getDatabase } from "firebase/database";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -25,10 +26,21 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const db = getDatabase(app);
+const firestore = getFirestore(app);
 
 if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectDatabaseEmulator(db, "localhost", 9000);
+  connectFirestoreEmulator(firestore, "localhost", 8080);
   connectAuthEmulator(auth, "http://localhost:9099");
 }
 
-export { auth, db, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signInWithEmailAndPassword, signOut };
+export {
+  auth,
+  db,
+  firestore,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+};

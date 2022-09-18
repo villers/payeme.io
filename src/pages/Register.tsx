@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { RootState, useAppDispatch } from "../app/store";
 import { registerAction } from "../features/auth/actions";
 import { selectAuth } from "../features/auth/slice";
+import { Box, Button, Container, TextField } from "@mui/material";
 
 type form = {
   email: string;
@@ -18,19 +19,24 @@ export const Register = () => {
   const submitForm: SubmitHandler<form> = (data) => dispatch(registerAction(data));
 
   return (
-    <form onSubmit={handleSubmit(submitForm)}>
-      {error && <span>{error}</span>}
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input type="email" className="form-input" {...register("email")} required />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input type="password" className="form-input" {...register("password")} required />
-      </div>
-      <button type="submit" className="button" disabled={loading}>
-        Register
-      </button>
-    </form>
+    <Container maxWidth="sm" sx={{ marginY: 3 }}>
+      <Box component="form" onSubmit={handleSubmit(submitForm)}>
+        {error && <span>{error}</span>}
+        <div>
+          <TextField fullWidth label="Email" variant="outlined" type="email" autoComplete="username" {...register("email")} required />
+        </div>
+        <div>
+          <TextField fullWidth label="Password" variant="outlined" type="password" autoComplete="current-password" {...register("password")} required />
+        </div>
+
+        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={loading}>
+          Inscription
+        </Button>
+
+        <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
+          Réinitialiser
+        </Button>
+      </Box>
+    </Container>
   );
 };

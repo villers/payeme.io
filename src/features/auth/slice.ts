@@ -6,14 +6,12 @@ interface InitialState {
   loading: boolean;
   user: any;
   error: any;
-  success: boolean;
 }
 
 const initialState: InitialState = {
   loading: false,
-  user: null, // for user object
+  user: null,
   error: null,
-  success: false, // for monitoring the registration process.
 };
 
 export const slice = createSlice({

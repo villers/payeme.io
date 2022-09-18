@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{company_id}/documents {
+    match /companies/{company} {
+      allow read: if true;
+    }
+    match /companies/{company_id}/jobs/{job_id} {
+      allow read: if true;
+    }
+
+//    match /{path=**}/jobs/{job} {
+//      allow read: if true;
+//    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

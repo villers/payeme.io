@@ -6,7 +6,8 @@ import { useAppDispatch } from "./app/store";
 import { refreshAction } from "./features/auth/actions";
 import { Header } from "./components/header/Header";
 import { Home } from "./pages/Home";
-import { Company } from "./pages/Company";
+import { Companies } from "./pages/company/Companies";
+import { Company } from "./pages/company/Company";
 import { Job } from "./pages/Job";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
@@ -23,7 +24,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/companies" element={<Company />} />
+        <Route path="/companies" element={<Companies />} />
+        <Route path="/companies/:name" element={<Company />} />
         <Route path="/jobs" element={<Job />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

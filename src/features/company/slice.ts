@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 import { RootState } from "../../app/store";
 
@@ -15,12 +15,14 @@ interface Company {
 interface InitialState {
   loading: boolean;
   companies: Company[];
+  company: Company | null;
   error: any;
 }
 
 const initialState: InitialState = {
   loading: false,
   companies: [],
+  company: null,
   error: null,
 };
 
@@ -42,6 +44,20 @@ export const slice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    builder
+      .addCase(getCompanyByNameAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCompanyByNameAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.company = action.payload;
+      })
+      .addCase(getCompanyByNameAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -54,6 +70,19 @@ export const getAllCompaniesAction = createAsyncThunk<Company[], void>(
     return docSnap.docs.map((company) => {
       return company.data() as Company;
     });
+  }
+);
+
+export const getCompanyByNameAction = createAsyncThunk<Company, string>(
+  "company/company_by_name",
+  async (name: string, { rejectWithValue }) => {
+    const docRef = doc(firestore, "companies", name);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data() as Company;
+    }
+    return rejectWithValue("La companie n'éxiste pas.");
   }
 );
 

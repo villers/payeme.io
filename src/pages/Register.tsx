@@ -23,10 +23,26 @@ export const Register = () => {
       <Box component="form" onSubmit={handleSubmit(submitForm)}>
         {error && <span>{error}</span>}
         <div>
-          <TextField fullWidth label="Email" variant="outlined" type="email" autoComplete="username" {...register("email")} required />
+          <TextField
+            fullWidth
+            label="Email"
+            variant="outlined"
+            type="email"
+            autoComplete="username"
+            {...register("email")}
+            required
+          />
         </div>
         <div>
-          <TextField fullWidth label="Password" variant="outlined" type="password" autoComplete="current-password" {...register("password")} required />
+          <TextField
+            fullWidth
+            label="Password"
+            variant="outlined"
+            type="password"
+            autoComplete="current-password"
+            {...register("password")}
+            required
+          />
         </div>
 
         <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={loading}>

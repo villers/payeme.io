@@ -5,6 +5,7 @@ import { useAppDispatch } from "../app/store";
 import { loginAction } from "../features/auth/actions";
 import { selectAuth } from "../features/auth/slice";
 import { Box, Button, Container, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type form = {
   email: string;
@@ -12,11 +13,16 @@ type form = {
 };
 
 export const Login = () => {
+  const navigate = useNavigate();
   const { loading, error } = useSelector(selectAuth);
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<form>();
 
-  const submitForm: SubmitHandler<form> = (data) => dispatch(loginAction(data));
+  const submitForm: SubmitHandler<form> = (data) => {
+    dispatch(loginAction(data))
+      .unwrap()
+      .then(() => navigate("/"));
+  };
 
   return (
     <Container maxWidth="sm" sx={{ marginY: 3 }}>

@@ -11,6 +11,7 @@ import { Company } from "./pages/company/Company";
 import { Job } from "./pages/Job";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
+import { CreateJob } from "./pages/CreateJob";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -29,6 +30,7 @@ function App() {
         <Route path="/jobs" element={<Job />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/job/create" element={<CreateJob />} />
       </Routes>
     </BrowserRouter>
   );

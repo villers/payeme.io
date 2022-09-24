@@ -26,7 +26,13 @@ export const Login = () => {
 
   return (
     <Container maxWidth="sm" sx={{ marginY: 3 }}>
-      <Box component="form" onSubmit={handleSubmit(submitForm)}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(submitForm)}
+        sx={{
+          "& .MuiTextField-root": { m: 1 },
+        }}
+      >
         {error && <span>{error}</span>}
         <div>
           <TextField

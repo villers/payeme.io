@@ -4,6 +4,7 @@ import { useAppDispatch } from "../app/store";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../features/auth/slice";
+import { addJob } from "../firebase/functions";
 
 type form = {
   company: string;
@@ -20,7 +21,9 @@ export const CreateJob = () => {
   const { register, handleSubmit } = useForm<form>();
 
   const submitForm: SubmitHandler<form> = (data) => {
-    console.log(data);
+    addJob(data).then((result) => {
+      console.log(result);
+    });
     // dispatch(loginAction(data))
     //   .unwrap()
     //   .then(() => navigate("/"));

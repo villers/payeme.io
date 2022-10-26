@@ -8,7 +8,8 @@ import { Header } from "./components/header/Header";
 import { Home } from "./pages/Home";
 import { Companies } from "./pages/company/Companies";
 import { Company } from "./pages/company/Company";
-import { Job } from "./pages/Job";
+import { Jobs } from "./pages/job/Jobs";
+import { Job } from "./pages/job/Job";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import { CreateJob } from "./pages/CreateJob";
@@ -27,7 +28,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/:name" element={<Company />} />
-        <Route path="/jobs" element={<Job />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/jobs/:name" element={<Job />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/job/create" element={<CreateJob />} />

@@ -6,8 +6,6 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "../../firebase/config";
-import firebase from "firebase/compat";
-import FirebaseError = firebase.FirebaseError;
 
 export interface LoginPayload {
   email: string;
@@ -27,7 +25,7 @@ export const loginAction = createAsyncThunk<LoginPayload, LoginQuery>(
         email: userAuth.user?.email,
         uid: userAuth.user?.uid,
       }))
-      .catch((err: FirebaseError) => {
+      .catch((err: any) => {
         return rejectWithValue(err.message);
       });
   }

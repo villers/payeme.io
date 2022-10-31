@@ -12,7 +12,7 @@ type form = {
   password: string;
 };
 
-export const Register = () => {
+const Register = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector(selectAuth);
   const dispatch = useAppDispatch();
@@ -68,3 +68,5 @@ export const Register = () => {
     </Container>
   );
 };
+
+export default Register;

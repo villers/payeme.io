@@ -9,7 +9,7 @@ type ParamUrl = {
   name: string;
 };
 
-export const Job = () => {
+const Job = () => {
   let { name } = useParams<ParamUrl>();
   const { job, error } = useSelector(selectJob);
   const dispatch = useAppDispatch();
@@ -29,3 +29,5 @@ export const Job = () => {
     </Container>
   );
 };
+
+export default Job;

@@ -15,7 +15,7 @@ type form = {
   note: number;
 };
 
-export const CreateJob = () => {
+const CreateJob = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useSelector(selectAuth);
   const { register, handleSubmit } = useForm<form>();
@@ -128,3 +128,5 @@ export const CreateJob = () => {
     </Container>
   );
 };
+
+export default CreateJob;

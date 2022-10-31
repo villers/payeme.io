@@ -9,7 +9,7 @@ type ParamUrl = {
   name: string;
 };
 
-export const Company = () => {
+const Company = () => {
   let { name } = useParams<ParamUrl>();
   const { company, error } = useSelector(selectCompany);
   const dispatch = useAppDispatch();
@@ -29,3 +29,5 @@ export const Company = () => {
     </Container>
   );
 };
+
+export default Company;

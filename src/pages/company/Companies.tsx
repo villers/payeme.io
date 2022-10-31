@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/store";
 import { useEffect } from "react";
 
-export const Companies = () => {
+const Companies = () => {
   const { companies } = useSelector(selectCompany);
   const dispatch = useAppDispatch();
 
@@ -34,3 +34,5 @@ export const Companies = () => {
     </Container>
   );
 };
+
+export default Companies;

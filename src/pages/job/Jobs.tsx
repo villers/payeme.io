@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../app/store";
 import { useEffect } from "react";
 import { getAllJobAction, selectJob } from "../../features/job/slice";
 
-export const Jobs = () => {
+const Jobs = () => {
   const { jobs } = useSelector(selectJob);
   const dispatch = useAppDispatch();
 
@@ -34,3 +34,5 @@ export const Jobs = () => {
     </Container>
   );
 };
+
+export default Jobs;

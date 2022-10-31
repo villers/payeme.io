@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../app/store";
 import { selectAuth } from "../../features/auth/slice";
 import { useSelector } from "react-redux";
 
-export const Header = () => {
+const Header = () => {
   const dispatch = useAppDispatch();
   const handleLogout = () => dispatch(logoutAction());
 
@@ -55,3 +55,5 @@ export const Header = () => {
     </AppBar>
   );
 };
+
+export default Header;

@@ -30,10 +30,10 @@ export const Header = () => {
             Entreprises
           </Link>
           <Link href="jobs" variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-            Metier
+            Metiers
           </Link>
-          <Link href="entreprises" variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-            Support
+          <Link href="job/create" variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
+            Ajouter un Métier
           </Link>
         </nav>
 

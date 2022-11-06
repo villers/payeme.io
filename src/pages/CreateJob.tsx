@@ -3,30 +3,19 @@ import React from "react";
 import { useAppDispatch } from "../app/store";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { selectAuth } from "../features/auth/slice";
-import { addJob } from "../firebase/functions";
-
-type form = {
-  company: string;
-  job: string;
-  salary: number;
-  study_level: string;
-  city: string;
-  note: number;
-};
+import { createJob, CreateJobQuery, selectJob } from "../features/job/slice";
+import { useNavigate } from "react-router-dom";
 
 const CreateJob = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error } = useSelector(selectAuth);
-  const { register, handleSubmit } = useForm<form>();
+  const { loading, error } = useSelector(selectJob);
+  const { register, handleSubmit } = useForm<CreateJobQuery>();
 
-  const submitForm: SubmitHandler<form> = (data) => {
-    addJob(data).then((result) => {
-      console.log(result);
-    });
-    // dispatch(loginAction(data))
-    //   .unwrap()
-    //   .then(() => navigate("/"));
+  const submitForm: SubmitHandler<CreateJobQuery> = (data) => {
+    dispatch(createJob(data))
+      .unwrap()
+      .then(() => navigate("/"));
   };
 
   return (
@@ -117,13 +106,21 @@ const CreateJob = () => {
           />
         </div>
 
-        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={loading}>
-          Ajouter le métier
-        </Button>
+        {error && <div>{error}</div>}
 
-        <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
-          Réinitialiser
-        </Button>
+        {loading ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={loading}>
+              Ajouter le métier
+            </Button>
+
+            <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
+              Réinitialiser
+            </Button>
+          </>
+        )}
       </Box>
     </Container>
   );

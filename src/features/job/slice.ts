@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { collection, doc, getDocs, getDoc } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 import { RootState } from "../../app/store";
+import { addJob } from "../../firebase/functions";
 
 interface Job {
   id?: string;
@@ -54,6 +55,19 @@ export const slice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    builder
+      .addCase(createJob.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createJob.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(createJob.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
@@ -86,6 +100,25 @@ export const getJobByNameAction = createAsyncThunk<Job, string>(
     return rejectWithValue("Le job n'éxiste pas.");
   }
 );
+
+export interface CreateJobQuery {
+  company: string;
+  job: string;
+  salary: number;
+  study_level: string;
+  city: string;
+  note: number;
+}
+
+export const createJob = createAsyncThunk<any, CreateJobQuery>("job/create", async (data, { rejectWithValue }) => {
+  return addJob(data)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err: any) => {
+      return rejectWithValue(err.message);
+    });
+});
 
 export const {} = slice.actions;
 

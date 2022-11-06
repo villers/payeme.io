@@ -26,7 +26,7 @@ const Companies = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/companies/${company.name.toLowerCase()}`}>Voir plus</Link>
+              <Link href={`/companies/${company.id}`}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}

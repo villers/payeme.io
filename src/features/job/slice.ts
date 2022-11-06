@@ -4,6 +4,7 @@ import { firestore } from "../../firebase/config";
 import { RootState } from "../../app/store";
 
 interface Job {
+  id?: string;
   name: string;
 }
 
@@ -61,7 +62,11 @@ export const getAllJobAction = createAsyncThunk<Job[], void>("job/get_all_jobs",
   const docSnap = await getDocs(docRef);
 
   return docSnap.docs.map((job) => {
-    return job.data() as Job;
+    const id = job.id;
+    return {
+      id,
+      ...job.data(),
+    } as Job;
   });
 });
 
@@ -72,7 +77,11 @@ export const getJobByNameAction = createAsyncThunk<Job, string>(
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data() as Job;
+      const id = docSnap.id;
+      return {
+        id,
+        ...docSnap.data(),
+      } as Job;
     }
     return rejectWithValue("Le job n'éxiste pas.");
   }

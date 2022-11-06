@@ -26,7 +26,7 @@ const Jobs = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/jobs/${job.name.toLowerCase()}`}>Voir plus</Link>
+              <Link href={`/jobs/${job.id}`}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}

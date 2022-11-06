@@ -4,10 +4,12 @@ import { firestore } from "../../firebase/config";
 import { RootState } from "../../app/store";
 
 interface Job {
+  id?: string;
   name: string;
 }
 
 interface Company {
+  id?: string;
   name: string;
   jobs: Job[];
 }
@@ -68,7 +70,11 @@ export const getAllCompaniesAction = createAsyncThunk<Company[], void>(
     const docSnap = await getDocs(docRef);
 
     return docSnap.docs.map((company) => {
-      return company.data() as Company;
+      const id = company.id;
+      return {
+        id,
+        ...company.data(),
+      } as Company;
     });
   }
 );
@@ -80,7 +86,11 @@ export const getCompanyByNameAction = createAsyncThunk<Company, string>(
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data() as Company;
+      const id = docSnap.id;
+      return {
+        id,
+        ...docSnap.data(),
+      } as Company;
     }
     return rejectWithValue("La companie n'éxiste pas.");
   }

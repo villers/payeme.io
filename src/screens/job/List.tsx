@@ -1,16 +1,18 @@
 import { Box, Card, CardActions, CardContent, Container, Link, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../app/store";
-import { useEffect } from "react";
-import { getAllJobAction, selectJob } from "../../features/job/slice";
+import { useQuery } from "@tanstack/react-query";
+import { Job } from "../../interfaces";
+import { JobsService } from "../../services/firebase/database";
 
-const Jobs = () => {
-  const { jobs } = useSelector(selectJob);
-  const dispatch = useAppDispatch();
+const ScreenJobList = () => {
+  const { data, isError, isLoading, error } = useQuery<Job[], Error>(["jobs"], JobsService.getAll);
 
-  useEffect(() => {
-    dispatch(getAllJobAction());
-  }, [dispatch]);
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <Container maxWidth="md" sx={{ marginY: 3 }}>
@@ -18,7 +20,7 @@ const Jobs = () => {
         Liste des métiers
       </Typography>
       <Box>
-        {jobs.map((job, key) => (
+        {data.map((job, key) => (
           <Card key={key} sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -26,7 +28,7 @@ const Jobs = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/jobs/${job.id}`}>Voir plus</Link>
+              <Link href={`/job/${job.id}`}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}
@@ -35,4 +37,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default ScreenJobList;

@@ -1,27 +1,41 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "../app/store";
-import { loginAction } from "../features/auth/actions";
-import { selectAuth } from "../features/auth/slice";
 import { Box, Button, Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useStateContext } from "../../context";
+import { auth } from "../../firebase/config";
+import { useAuthCreateUserWithEmailAndPassword } from "../../services/firebase/auth/AuthHook";
 
 type form = {
   email: string;
   password: string;
 };
 
-const Login = () => {
+const ScreenRegister = () => {
   const navigate = useNavigate();
-  const { loading, error } = useSelector(selectAuth);
-  const dispatch = useAppDispatch();
+  const { dispatch } = useStateContext();
+
+  const { mutate, isError, error, isLoading } = useAuthCreateUserWithEmailAndPassword(auth, {
+    onSuccess: (data) => {
+      console.log("success", data);
+      dispatch({
+        type: "SET_USER",
+        payload: {
+          email: data.user.email,
+          uid: data.user.uid,
+        },
+      });
+      navigate("/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const { register, handleSubmit } = useForm<form>();
 
   const submitForm: SubmitHandler<form> = (data) => {
-    dispatch(loginAction(data))
-      .unwrap()
-      .then(() => navigate("/"));
+    mutate(data);
   };
 
   return (
@@ -33,7 +47,7 @@ const Login = () => {
           "& .MuiTextField-root": { m: 1 },
         }}
       >
-        {error && <span>{error}</span>}
+        {isError && <span>{error.message}</span>}
         <div>
           <TextField
             fullWidth
@@ -57,8 +71,8 @@ const Login = () => {
           />
         </div>
 
-        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={loading}>
-          Connexion
+        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={isLoading}>
+          Inscription
         </Button>
 
         <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
@@ -69,4 +83,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ScreenRegister;

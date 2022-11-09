@@ -1,16 +1,18 @@
 import { Box, Card, CardActions, CardContent, Container, Link, Typography } from "@mui/material";
-import { getAllCompaniesAction, selectCompany } from "../../features/company/slice";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../app/store";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { CompaniesService } from "../../services/firebase/database";
+import { Company } from "../../interfaces";
 
-const Companies = () => {
-  const { companies } = useSelector(selectCompany);
-  const dispatch = useAppDispatch();
+const ScreenCompanyList = () => {
+  const { data, isError, isLoading, error } = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);
 
-  useEffect(() => {
-    dispatch(getAllCompaniesAction());
-  }, [dispatch]);
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
     <Container maxWidth="md" sx={{ marginY: 3 }}>
@@ -18,7 +20,7 @@ const Companies = () => {
         Liste des entreprises
       </Typography>
       <Box>
-        {companies.map((company, key) => (
+        {data.map((company: any, key) => (
           <Card key={key} sx={{ minWidth: 275 }}>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -26,7 +28,7 @@ const Companies = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/companies/${company.id}`}>Voir plus</Link>
+              <Link href={`/company/${company.id}`}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}
@@ -35,4 +37,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default ScreenCompanyList;

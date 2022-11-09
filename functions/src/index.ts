@@ -38,8 +38,10 @@ export const addJob = functions.https.onCall(async (data: form) => {
 
   // add row to company_job
   const result = await createDocument(TABLE_COMPANY_JOB, {
-    company: await getRef(`${TABLE_COMPANIES}/${slug(data.company)}`),
-    job: await getRef(`${TABLE_JOBS}/${slug(data.job)}`),
+    companyRef: await getRef(`${TABLE_COMPANIES}/${slug(data.company)}`),
+    jobRef: await getRef(`${TABLE_JOBS}/${slug(data.job)}`),
+    company: data.company,
+    job: data.job,
     salary: data.salary,
     study_level: data.study_level,
     city: data.city,

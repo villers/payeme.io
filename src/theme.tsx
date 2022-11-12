@@ -1,8 +1,8 @@
 import { createTheme } from "@mui/material";
-import { red } from "@mui/material/colors";
-import { Link as RouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
 import { LinkProps } from "@mui/material/Link";
+import { red } from "@mui/material/colors";
 import { forwardRef } from "react";
+import { Link as RouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
 
 const LinkBehavior = forwardRef<HTMLAnchorElement, Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }>(
   (props, ref) => {

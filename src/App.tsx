@@ -1,10 +1,9 @@
-import { lazy, Suspense } from "react";
-import { Routes, BrowserRouter, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.css";
-
-import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+import Header from "./layout/Header";
 
 const ScreenHome = lazy(() => import("./screens/Home"));
 const ScreenCompanyList = lazy(() => import("./screens/company/List"));

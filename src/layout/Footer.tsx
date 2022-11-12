@@ -1,8 +1,8 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 
 const Copyright = () => (
   <Typography variant="body2" color="text.secondary" align="center">

@@ -1,8 +1,8 @@
 import { AppBar, Button, Link, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { useStateContext } from "../context";
 import { auth } from "../firebase/config";
-import { useNavigate } from "react-router-dom";
 import { useAuthSignOut } from "../services/firebase/auth/AuthHook";
 
 const Header = () => {

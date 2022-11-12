@@ -1,7 +1,8 @@
+import { Box, Button, Container, TextField } from "@mui/material";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Container, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import { useStateContext } from "../../context";
 import { auth } from "../../firebase/config";
 import { useAuthCreateUserWithEmailAndPassword } from "../../services/firebase/auth/AuthHook";

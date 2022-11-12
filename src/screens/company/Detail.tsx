@@ -1,9 +1,9 @@
 import { Container, Typography } from "@mui/material";
-
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { CompaniesService } from "../../services/firebase/database";
+import { useParams } from "react-router-dom";
+
 import { Company as C } from "../../interfaces";
+import { CompaniesService } from "../../services/firebase/database";
 
 type ParamUrl = {
   name: string;

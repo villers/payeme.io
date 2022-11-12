@@ -1,13 +1,14 @@
 import * as functions from "firebase-functions";
+import * as slug from "slug";
+
 import {
-  createDocument,
-  findDocumentById,
-  getRef,
   TABLE_COMPANIES,
   TABLE_COMPANY_JOB,
   TABLE_JOBS,
+  createDocument,
+  findDocumentById,
+  getRef,
 } from "./services/orm";
-const slug = require("slug");
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript

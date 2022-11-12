@@ -1,5 +1,6 @@
-import { useStateContext } from "../../../context";
 import React from "react";
+
+import { useStateContext } from "../../../context";
 import { auth } from "../../../firebase/config";
 import { useAuthStateChanged } from "./AuthHook";
 

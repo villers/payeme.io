@@ -1,6 +1,7 @@
 import { Container, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+
 import { Job as J } from "../../interfaces";
 import { JobsService } from "../../services/firebase/database";
 

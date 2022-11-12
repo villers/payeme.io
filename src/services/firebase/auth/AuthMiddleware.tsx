@@ -1,7 +1,8 @@
-import { useStateContext } from "../../../context";
 import React from "react";
-import { auth } from "../../../firebase/config";
-import { useAuthStateChanged } from "./AuthHook";
+
+import { useStateContext } from "@/context";
+import { auth } from "@/firebase/config";
+import { useAuthStateChanged } from "@/services/firebase/auth/AuthHook";
 
 type AuthMiddlewareProps = {
   children: React.ReactElement;

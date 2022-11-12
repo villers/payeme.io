@@ -1,11 +1,12 @@
 import { Autocomplete, Box, Button, Container, Slider, TextField, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { CompaniesService, JobsService } from "../../services/firebase/database";
-import { Job, Company } from "../../interfaces";
-import { functions } from "../../firebase/config";
-import { useFunctionsCall } from "../../services/firebase/functions/FunctionsHook";
+
+import { functions } from "@/firebase/config";
+import { Company, Job } from "@/interfaces";
+import { CompaniesService, JobsService } from "@/services/firebase/database";
+import { useFunctionsCall } from "@/services/firebase/functions/FunctionsHook";
 
 type addJobQuery = {
   company: string;

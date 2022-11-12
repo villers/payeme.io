@@ -1,8 +1,9 @@
 import { Container, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Job as J } from "../../interfaces";
-import { JobsService } from "../../services/firebase/database";
+import { useParams } from "react-router-dom";
+
+import { Job } from "@/interfaces";
+import { JobsService } from "@/services/firebase/database";
 
 type ParamUrl = {
   name: string;
@@ -10,7 +11,7 @@ type ParamUrl = {
 
 const ScreenJobDetail = () => {
   let { name } = useParams<ParamUrl>();
-  const { data, isError, isLoading, error } = useQuery<J, Error>(["job", name], JobsService.getOne);
+  const { data, isError, isLoading, error } = useQuery<Job, Error>(["job", name], JobsService.getOne);
 
   if (isLoading) {
     return <span>Loading...</span>;

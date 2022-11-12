@@ -1,14 +1,13 @@
 import {
   QueryKey,
-  useMutation,
   UseMutationOptions,
   UseMutationResult,
-  useQuery,
   UseQueryOptions,
   UseQueryResult,
+  useMutation,
+  useQuery,
 } from "@tanstack/react-query";
-
-import { Functions, httpsCallable, HttpsCallableOptions } from "firebase/functions";
+import { Functions, HttpsCallableOptions, httpsCallable } from "firebase/functions";
 
 export function useFunctionsQuery<RequestData = any, ResponseData = unknown, ModifiedData = ResponseData>(
   key: QueryKey,

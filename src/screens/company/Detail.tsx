@@ -1,9 +1,9 @@
 import { Container, Typography } from "@mui/material";
-
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { CompaniesService } from "../../services/firebase/database";
-import { Company as C } from "../../interfaces";
+import { useParams } from "react-router-dom";
+
+import { Company } from "@/interfaces";
+import { CompaniesService } from "@/services/firebase/database";
 
 type ParamUrl = {
   name: string;
@@ -11,7 +11,7 @@ type ParamUrl = {
 
 const ScreenCompanyDetail = () => {
   let { name } = useParams<ParamUrl>();
-  const { data, isError, isLoading, error } = useQuery<C, Error>(["companies", name], CompaniesService.getOne);
+  const { data, isError, isLoading, error } = useQuery<Company, Error>(["companies", name], CompaniesService.getOne);
 
   if (isLoading) {
     return <span>Loading...</span>;

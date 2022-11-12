@@ -1,17 +1,9 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "@firebase/app";
 
-import {
-  connectAuthEmulator,
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { connectDatabaseEmulator, getDatabase } from "firebase/database";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
-import { connectFunctionsEmulator, getFunctions, httpsCallable } from "firebase/functions";
+import { connectAuthEmulator, getAuth } from "@firebase/auth";
+import { connectDatabaseEmulator, getDatabase } from "@firebase/database";
+import { connectFirestoreEmulator, getFirestore } from "@firebase/firestore";
+import { connectFunctionsEmulator, getFunctions } from "@firebase/functions";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -37,15 +29,4 @@ if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectFunctionsEmulator(functions, "localhost", 5001);
 }
 
-export {
-  auth,
-  db,
-  firestore,
-  functions,
-  httpsCallable,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-};
+export { auth, db, firestore, functions };

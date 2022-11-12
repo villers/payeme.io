@@ -1,43 +1,39 @@
-import { useEffect, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 
 import "./App.css";
-import { useAppDispatch } from "./app/store";
-import { refreshAction } from "./features/auth/actions";
 
-import Header from "./components/header/Header";
+import Header from "./layout/Header";
+import Footer from "./layout/Footer";
 
-const Home = lazy(() => import("./pages/Home"));
-const Companies = lazy(() => import("./pages/company/Companies"));
-const Company = lazy(() => import("./pages/company/Company"));
-const Job = lazy(() => import("./pages/job/Job"));
-const Jobs = lazy(() => import("./pages/job/Jobs"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
-const CreateJob = lazy(() => import("./pages/CreateJob"));
+const ScreenHome = lazy(() => import("./screens/Home"));
+const ScreenCompanyList = lazy(() => import("./screens/company/List"));
+const ScreenBookDetail = lazy(() => import("./screens/company/Detail"));
+const ScreenRecordCreate = lazy(() => import("./screens/record/Create"));
+const ScreenJobDetail = lazy(() => import("./screens/job/Detail"));
+const ScreenJobList = lazy(() => import("./screens/job/List"));
+const ScreenLogin = lazy(() => import("./screens/auth/Login"));
+const ScreenRegister = lazy(() => import("./screens/auth/Register"));
+const ScreenNotFound = lazy(() => import("./screens/NotFound"));
 
 function App() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(refreshAction());
-  }, [dispatch]);
-
   return (
     <BrowserRouter>
       <Header />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/companies" element={<Companies />} />
-          <Route path="/companies/:name" element={<Company />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/job/create" element={<CreateJob />} />
-          <Route path="/jobs/:name" element={<Job />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<ScreenHome />} />
+          <Route path="/create" element={<ScreenRecordCreate />} />
+          <Route path="/company" element={<ScreenCompanyList />} />
+          <Route path="/company/:name" element={<ScreenBookDetail />} />
+          <Route path="/job" element={<ScreenJobList />} />
+          <Route path="/job/:name" element={<ScreenJobDetail />} />
+          <Route path="/login" element={<ScreenLogin />} />
+          <Route path="/register" element={<ScreenRegister />} />
+          <Route path="*" element={<ScreenNotFound />} />
         </Routes>
       </Suspense>
+      <Footer />
     </BrowserRouter>
   );
 }

@@ -1,19 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { store } from "./app/store";
 import App from "./App";
 import theme from "./theme";
 import "./index.css";
+import { StateContextProvider } from "./context";
+import AuthMiddleware from "./services/firebase/auth/AuthMiddleware";
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <Provider store={store}>
+  <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <StateContextProvider>
+        <AuthMiddleware>
+          <App />
+        </AuthMiddleware>
+      </StateContextProvider>
     </ThemeProvider>
-  </Provider>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
 );

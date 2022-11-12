@@ -1,29 +1,48 @@
 import { Autocomplete, Box, Button, Container, Slider, TextField, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import { useAppDispatch } from "../app/store";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { createJob, CreateJobQuery, getAllJobAction, selectJob } from "../features/job/slice";
 import { useNavigate } from "react-router-dom";
-import { getAllCompaniesAction, selectCompany } from "../features/company/slice";
+import { useQuery } from "@tanstack/react-query";
+import { CompaniesService, JobsService } from "../../services/firebase/database";
+import { Job, Company } from "../../interfaces";
+import { functions } from "../../firebase/config";
+import { useFunctionsCall } from "../../services/firebase/functions/FunctionsHook";
 
-const CreateJob = () => {
+type addJobQuery = {
+  company: string;
+  job: string;
+  salary: number;
+  study_level: string;
+  city: string;
+  note: number;
+};
+
+const ScreenRecordCreate = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const jobSelect = useSelector(selectJob);
-  const companySelect = useSelector(selectCompany);
-  const { register, handleSubmit } = useForm<CreateJobQuery>();
+  const { register, handleSubmit } = useForm<addJobQuery>();
 
-  useEffect(() => {
-    dispatch(getAllCompaniesAction());
-    dispatch(getAllJobAction());
-  }, [dispatch]);
+  const jobs = useQuery<Job[], Error>(["jobs"], JobsService.getAll);
+  const companies = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);
 
-  const submitForm: SubmitHandler<CreateJobQuery> = (data) => {
-    dispatch(createJob(data))
-      .unwrap()
-      .then(() => navigate("/"));
-  };
+  const { mutate, isLoading } = useFunctionsCall(
+    functions,
+    "addJob",
+    {},
+    {
+      onSuccess: () => {
+        navigate("/");
+      },
+    }
+  );
+
+  const submitForm: SubmitHandler<addJobQuery> = (data) => mutate(data);
+
+  if (jobs.isLoading || companies.isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (jobs.isError || companies.isError) {
+    return <span>Error: {jobs.error?.message || companies.error?.message}</span>;
+  }
 
   return (
     <Container maxWidth="sm" sx={{ marginY: 3 }}>
@@ -34,12 +53,11 @@ const CreateJob = () => {
           "& .MuiTextField-root": { m: 1 },
         }}
       >
-        {jobSelect.error && <span>{jobSelect.error}</span>}
         <div>
           <Autocomplete
             freeSolo
             openOnFocus
-            options={companySelect.companies.map((company) => company.name)}
+            options={companies.data.map((company) => company.name)}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -58,7 +76,7 @@ const CreateJob = () => {
           <Autocomplete
             freeSolo
             openOnFocus
-            options={jobSelect.jobs.map((job) => job.name)}
+            options={jobs.data.map((job) => job.name)}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -118,7 +136,7 @@ const CreateJob = () => {
           />
         </div>
 
-        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={jobSelect.loading}>
+        <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={isLoading}>
           Ajouter le métier
         </Button>
 
@@ -130,4 +148,4 @@ const CreateJob = () => {
   );
 };
 
-export default CreateJob;
+export default ScreenRecordCreate;

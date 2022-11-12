@@ -1,19 +1,19 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import "./App.css";
-import Footer from "./layout/Footer";
-import Header from "./layout/Header";
+import "@/App.css";
+import Footer from "@/layout/Footer";
+import Header from "@/layout/Header";
 
-const ScreenHome = lazy(() => import("./screens/Home"));
-const ScreenCompanyList = lazy(() => import("./screens/company/List"));
-const ScreenBookDetail = lazy(() => import("./screens/company/Detail"));
-const ScreenRecordCreate = lazy(() => import("./screens/record/Create"));
-const ScreenJobDetail = lazy(() => import("./screens/job/Detail"));
-const ScreenJobList = lazy(() => import("./screens/job/List"));
-const ScreenLogin = lazy(() => import("./screens/auth/Login"));
-const ScreenRegister = lazy(() => import("./screens/auth/Register"));
-const ScreenNotFound = lazy(() => import("./screens/NotFound"));
+const ScreenHome = lazy(() => import("@/screens/Home"));
+const ScreenCompanyList = lazy(() => import("@/screens/company/List"));
+const ScreenBookDetail = lazy(() => import("@/screens/company/Detail"));
+const ScreenRegister = lazy(() => import("@/screens/auth/Register"));
+const ScreenRecordCreate = lazy(() => import("@/screens/record/Create"));
+const ScreenJobDetail = lazy(() => import("@/screens/job/Detail"));
+const ScreenJobList = lazy(() => import("@/screens/job/List"));
+const ScreenLogin = lazy(() => import("@/screens/auth/Login"));
+const ScreenNotFound = lazy(() => import("@/screens/NotFound"));
 
 function App() {
   return (

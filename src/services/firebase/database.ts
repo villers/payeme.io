@@ -1,7 +1,7 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
-import { firestore } from "../../firebase/config";
-import { Company, Job, Record } from "../../interfaces";
+import { firestore } from "@/firebase/config";
+import { Company, Job, Record } from "@/interfaces";
 
 class DatabaseService<T> {
   private readonly collection;

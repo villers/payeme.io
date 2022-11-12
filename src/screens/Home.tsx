@@ -1,8 +1,8 @@
-import { Box, Card, CardActions, CardContent, Container, Grid, Link, Paper, Typography } from "@mui/material";
+import { Box, Container, Grid, Link, Paper, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
-import { Record } from "../interfaces";
-import { RecordsService } from "../services/firebase/database";
+import { Record } from "@/interfaces";
+import { RecordsService } from "@/services/firebase/database";
 
 const ScreenHome = () => {
   const { data, isError, isLoading, error } = useQuery<Record[], Error>(["record"], RecordsService.getAll);

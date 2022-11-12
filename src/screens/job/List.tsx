@@ -1,8 +1,8 @@
 import { Box, Card, CardActions, CardContent, Container, Link, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
-import { Job } from "../../interfaces";
-import { JobsService } from "../../services/firebase/database";
+import { Job } from "@/interfaces";
+import { JobsService } from "@/services/firebase/database";
 
 const ScreenJobList = () => {
   const { data, isError, isLoading, error } = useQuery<Job[], Error>(["jobs"], JobsService.getAll);

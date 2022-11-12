@@ -1,8 +1,8 @@
 import { Box, Card, CardActions, CardContent, Container, Link, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
-import { Company } from "../../interfaces";
-import { CompaniesService } from "../../services/firebase/database";
+import { Company } from "@/interfaces";
+import { CompaniesService } from "@/services/firebase/database";
 
 const ScreenCompanyList = () => {
   const { data, isError, isLoading, error } = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);

@@ -5,11 +5,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import App from "./App";
-import { StateContextProvider } from "./context";
-import "./index.css";
-import AuthMiddleware from "./services/firebase/auth/AuthMiddleware";
-import theme from "./theme";
+import App from "@/App";
+import { StateContextProvider } from "@/context";
+import "@/index.css";
+import AuthMiddleware from "@/services/firebase/auth/AuthMiddleware";
+import theme from "@/theme";
 
 const queryClient = new QueryClient();
 

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { Timestamp, getFirestore } from "firebase-admin/firestore";
 
 const app = initializeApp();
 const firestore = getFirestore(app);
@@ -29,3 +29,5 @@ export const createDocument = async (collection: string, data: any, id?: string)
 };
 
 export const getRef = async (documentPath: string) => firestore.doc(documentPath);
+
+export const getTimestampNow = () => Timestamp.now();

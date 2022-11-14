@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { functions } from "@/firebase/config";
 import { Company, Job } from "@/interfaces";
+import Routes from "@/routes";
 import { CompaniesService, JobsService } from "@/services/firebase/database";
 import { useFunctionsCall } from "@/services/firebase/functions/FunctionsHook";
 
@@ -15,6 +16,7 @@ type addJobQuery = {
   study_level: string;
   city: string;
   note: number;
+  experience: number;
 };
 
 const ScreenRecordCreate = () => {
@@ -30,7 +32,7 @@ const ScreenRecordCreate = () => {
     {},
     {
       onSuccess: () => {
-        navigate("/");
+        navigate(Routes.home);
       },
     }
   );
@@ -63,7 +65,7 @@ const ScreenRecordCreate = () => {
               <TextField
                 {...params}
                 fullWidth
-                label="Nom de l'entreprise"
+                label="Entreprise"
                 variant="outlined"
                 type="text"
                 {...register("company")}
@@ -82,7 +84,7 @@ const ScreenRecordCreate = () => {
               <TextField
                 {...params}
                 fullWidth
-                label="Nom du métier"
+                label="Intitulé du poste"
                 variant="outlined"
                 type="text"
                 {...register("job")}
@@ -93,7 +95,25 @@ const ScreenRecordCreate = () => {
         </div>
 
         <div>
-          <TextField fullWidth label="Salaire" variant="outlined" type="number" {...register("salary")} required />
+          <TextField
+            fullWidth
+            label="Rémunération brute annuel"
+            variant="outlined"
+            type="number"
+            {...register("salary")}
+            required
+          />
+        </div>
+
+        <div>
+          <TextField
+            fullWidth
+            label="Expérience"
+            variant="outlined"
+            type="number"
+            {...register("experience")}
+            required
+          />
         </div>
 
         <div>
@@ -110,7 +130,7 @@ const ScreenRecordCreate = () => {
         <div>
           <TextField
             fullWidth
-            label="Ville"
+            label="Localisation"
             variant="outlined"
             type="text"
             autoComplete="Lyon"

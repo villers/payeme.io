@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useStateContext } from "@/context";
 import { auth } from "@/firebase/config";
+import Routes from "@/routes";
 import { useAuthCreateUserWithEmailAndPassword } from "@/services/firebase/auth/AuthHook";
 
 type form = {
@@ -26,7 +27,7 @@ const ScreenRegister = () => {
           uid: data.user.uid,
         },
       });
-      navigate("/");
+      navigate(Routes.home);
     },
     onError: (error) => {
       console.log(error);

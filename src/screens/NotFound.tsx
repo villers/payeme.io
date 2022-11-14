@@ -1,6 +1,8 @@
 import { Box, Button, Link, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
+import Routes from "@/routes";
+
 const ScreenNotfound = () => {
   const {
     palette: {
@@ -24,7 +26,7 @@ const ScreenNotfound = () => {
       <Typography variant="h6" style={{ color: "white" }}>
         The page you’re looking for doesn’t exist.
       </Typography>
-      <Link href="/">
+      <Link href={Routes.home}>
         <Button variant="contained">Back Home</Button>
       </Link>
     </Box>

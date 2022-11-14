@@ -2,6 +2,7 @@ import { Box, Card, CardActions, CardContent, Container, Link, Typography } from
 import { useQuery } from "@tanstack/react-query";
 
 import { Company } from "@/interfaces";
+import Routes from "@/routes";
 import { CompaniesService } from "@/services/firebase/database";
 
 const ScreenCompanyList = () => {
@@ -29,7 +30,7 @@ const ScreenCompanyList = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/company/${company.id}`}>Voir plus</Link>
+              <Link href={Routes.company.detail(company.id)}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}

@@ -8,6 +8,7 @@ import {
   createDocument,
   findDocumentById,
   getRef,
+  getTimestampNow,
 } from "./services/orm";
 
 // Start writing Firebase Functions
@@ -19,6 +20,7 @@ type form = {
   salary: number;
   study_level: string;
   city: string;
+  experience: string;
   note: number;
 };
 
@@ -47,6 +49,8 @@ export const addJob = functions.https.onCall(async (data: form) => {
     study_level: data.study_level,
     city: data.city,
     note: data.note,
+    experience: data.experience,
+    createdAt: getTimestampNow(),
   });
 
   functions.logger.info(result, { structuredData: true });

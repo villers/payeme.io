@@ -1,3 +1,6 @@
+import { DocumentReference } from "@firebase/firestore";
+import { Timestamp } from "firebase/firestore";
+
 export interface Job {
   id?: string;
   name: string;
@@ -12,11 +15,13 @@ export interface Company {
 export interface Record {
   id: string;
   city: string;
-  companyRef: any;
+  companyRef: DocumentReference<Company>;
   company: string;
-  jobRef: any;
+  jobRef: DocumentReference<Job>;
   job: string;
   note: string;
   salary: string;
   study_level: string;
+  experience: string;
+  createdAt: Timestamp;
 }

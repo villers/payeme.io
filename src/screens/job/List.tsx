@@ -2,6 +2,7 @@ import { Box, Card, CardActions, CardContent, Container, Link, Typography } from
 import { useQuery } from "@tanstack/react-query";
 
 import { Job } from "@/interfaces";
+import Routes from "@/routes";
 import { JobsService } from "@/services/firebase/database";
 
 const ScreenJobList = () => {
@@ -29,7 +30,7 @@ const ScreenJobList = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link href={`/job/${job.id}`}>Voir plus</Link>
+              <Link href={Routes.job.detail(job.id)}>Voir plus</Link>
             </CardActions>
           </Card>
         ))}

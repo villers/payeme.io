@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useReducer } from "react";
 
 type IUser = {
   email: string | null;
@@ -41,9 +41,9 @@ const stateReducer = (state: Index, action: Action) => {
 };
 
 type StateContextProviderProps = { children: React.ReactNode };
-const StateContext = React.createContext<{ state: Index; dispatch: Dispatch } | undefined>(undefined);
+const StateContext = createContext<{ state: Index; dispatch: Dispatch } | undefined>(undefined);
 const StateContextProvider = ({ children }: StateContextProviderProps) => {
-  const [state, dispatch] = React.useReducer(stateReducer, initialState);
+  const [state, dispatch] = useReducer(stateReducer, initialState);
   return <StateContext.Provider value={{ state, dispatch }}>{children}</StateContext.Provider>;
 };
 

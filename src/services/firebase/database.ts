@@ -1,7 +1,12 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { DocumentData, Query } from "@firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 import { firestore } from "@/firebase/config";
 import { Company, Job, Record } from "@/interfaces";
+
+interface FilterParams {
+  [k: string]: string;
+}
 
 class DatabaseService<T> {
   private readonly collection;
@@ -10,14 +15,26 @@ class DatabaseService<T> {
     this.collection = collection(firestore, collectionName);
   }
 
-  getAll = async (): Promise<T[]> => {
-    const snapshot = await getDocs(this.collection);
-    return snapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as T;
-    });
+  getAll = async (filters: FilterParams = {}): Promise<T[]> => {
+    const snapshot = await getDocs<T[]>(
+      query.call(
+        this,
+        this.collection,
+        ...Object.keys(filters)
+          .filter((key) => filters[key] != "")
+          .map((key) => {
+            return where(key, "==", filters[key]);
+          })
+      ) as Query<T[]>
+    );
+
+    return snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as T)
+    );
   };
 
   getOne = async ({ queryKey }: any): Promise<T> => {

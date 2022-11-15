@@ -1,4 +1,4 @@
-import { AppBar, Button, Link, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Container, Link, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { useStateContext } from "@/context";
@@ -39,38 +39,46 @@ const Header = () => {
       sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
     >
       <Toolbar sx={{ flexWrap: "wrap" }}>
-        <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          <Link href={Routes.home} underline="none">
-            PAYEME.IO
-          </Link>
-        </Typography>
+        <Container
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+            <Link href={Routes.home} underline="none">
+              PAYEME.IO
+            </Link>
+          </Typography>
 
-        <nav>
-          <Link href={Routes.company.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-            Entreprises
-          </Link>
-          <Link href={Routes.job.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-            Metiers
-          </Link>
-          <Link href={Routes.create} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-            Ajouter un Métier
-          </Link>
-        </nav>
+          <nav>
+            <Link href={Routes.company.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
+              Entreprises
+            </Link>
+            <Link href={Routes.job.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
+              Metiers
+            </Link>
+            <Link href={Routes.create} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
+              Ajouter un Métier
+            </Link>
+          </nav>
 
-        {authUser ? (
-          <Button variant="contained" color="error" sx={{ my: 1, mx: 1.5 }} onClick={handleLogout}>
-            logout
-          </Button>
-        ) : (
-          <>
-            <Button href={Routes.auth.register} variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }}>
-              Inscription
+          {authUser ? (
+            <Button variant="contained" color="error" sx={{ my: 1, mx: 1.5 }} onClick={handleLogout}>
+              logout
             </Button>
-            <Button href={Routes.auth.login} variant="contained" color="success" sx={{ my: 1, mx: 1.5 }}>
-              Connexion
-            </Button>
-          </>
-        )}
+          ) : (
+            <>
+              <Button href={Routes.auth.register} variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }}>
+                Inscription
+              </Button>
+              <Button href={Routes.auth.login} variant="contained" color="success" sx={{ my: 1, mx: 1.5 }}>
+                Connexion
+              </Button>
+            </>
+          )}
+        </Container>
       </Toolbar>
     </AppBar>
   );

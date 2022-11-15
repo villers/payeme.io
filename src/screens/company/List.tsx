@@ -6,7 +6,9 @@ import Routes from "@/routes";
 import { CompaniesService } from "@/services/firebase/database";
 
 const ScreenCompanyList = () => {
-  const { data, isError, isLoading, error } = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);
+  const { data, isError, isLoading, error } = useQuery<Company[], Error>(["companies"], () =>
+    CompaniesService.getAll()
+  );
 
   if (isLoading) {
     return <span>Loading...</span>;

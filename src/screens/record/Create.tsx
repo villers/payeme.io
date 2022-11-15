@@ -23,8 +23,8 @@ const ScreenRecordCreate = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<addJobQuery>();
 
-  const jobs = useQuery<Job[], Error>(["jobs"], JobsService.getAll);
-  const companies = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);
+  const jobs = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
+  const companies = useQuery<Company[], Error>(["companies"], () => CompaniesService.getAll());
 
   const { mutate, isLoading } = useFunctionsCall(
     functions,

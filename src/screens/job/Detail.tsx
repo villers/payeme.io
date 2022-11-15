@@ -11,7 +11,7 @@ type ParamUrl = {
 
 const ScreenJobDetail = () => {
   let { name } = useParams<ParamUrl>();
-  const { data, isError, isLoading, error } = useQuery<Job, Error>(["job", name], JobsService.getOne);
+  const { data, isError, isLoading, error } = useQuery<Job, Error>(["job", name], () => JobsService.getOne());
 
   if (isLoading) {
     return <span>Loading...</span>;

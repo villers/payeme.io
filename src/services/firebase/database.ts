@@ -37,9 +37,7 @@ class DatabaseService<T> {
     );
   };
 
-  getOne = async ({ queryKey }: any): Promise<T> => {
-    const id = queryKey[1];
-
+  getOne = async (id: any): Promise<T> => {
     const docRef = doc(firestore, this.collectionName, id);
     const snapshot = await getDoc(docRef);
 

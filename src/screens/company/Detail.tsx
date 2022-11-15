@@ -12,7 +12,7 @@ type ParamUrl = {
 const ScreenCompanyDetail = () => {
   let { name } = useParams<ParamUrl>();
   const { data, isError, isLoading, error } = useQuery<Company, Error>(["companies", name], () =>
-    CompaniesService.getOne()
+    CompaniesService.getOne(name)
   );
 
   if (isLoading) {

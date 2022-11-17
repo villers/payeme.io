@@ -1,8 +1,8 @@
-import { DocumentData, Query } from "@firebase/firestore";
+import { DocumentData, DocumentReference, Query } from "@firebase/firestore";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 import { firestore } from "@/firebase/config";
-import { Company, Job, Record } from "@/interfaces";
+import { City, Company, Job, Record } from "@/interfaces";
 
 interface FilterParams {
   [k: string]: string;
@@ -44,30 +44,14 @@ class DatabaseService<T> {
     return snapshot.data() as T;
   };
 
-  /* getReference = async (documentReference: any) => {
-    const res = await documentReference.get();
-    const data = res.data();
+  getRef = async (docRef: DocumentReference<T>): Promise<T> => {
+    const snapshot = await getDoc(docRef);
 
-    if (data && documentReference.id) {
-      data.uid = documentReference.id;
-    }
-
-    return data;
+    return snapshot.data() as T;
   };
-
-  create = async (data) => {
-    return await this.collection.add(data);
-  };
-
-  update = async (id, values) => {
-    return await this.collection.doc(id).update(values);
-  };
-
-  remove = async (id) => {
-    return await this.collection.doc(id).delete();
-  };*/
 }
 
 export const CompaniesService = new DatabaseService<Company>("companies");
 export const JobsService = new DatabaseService<Job>("jobs");
 export const RecordsService = new DatabaseService<Record>("company_job");
+export const CitiesService = new DatabaseService<City>("cities");

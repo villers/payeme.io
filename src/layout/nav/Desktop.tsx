@@ -8,7 +8,7 @@ type Props = {
   authUser: IUser | null;
 };
 
-const DesktopNav = ({ handleLogout, authUser }: Props) => {
+const Desktop = ({ handleLogout, authUser }: Props) => {
   return (
     <>
       <nav>
@@ -41,4 +41,4 @@ const DesktopNav = ({ handleLogout, authUser }: Props) => {
   );
 };
 
-export default DesktopNav;
+export default Desktop;

@@ -1,22 +1,10 @@
-import menuIcon from "@iconify/icons-carbon/menu";
-import {
-  AppBar,
-  Button,
-  Container,
-  IconButton,
-  Link,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { AppBar, Container, Link, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import Iconify from "@/components/Iconify";
 import { useStateContext } from "@/context";
 import { auth } from "@/firebase/config";
-import DesktopNav from "@/layout/DesktopNav";
-import MobileNav from "@/layout/MobileNav";
+import Desktop from "@/layout/nav/Desktop";
+import Mobile from "@/layout/nav/Mobile";
 import Routes from "@/routes";
 import { useAuthSignOut } from "@/services/firebase/auth/AuthHook";
 
@@ -69,9 +57,9 @@ const Header = () => {
           </Typography>
 
           {isDesktop ? (
-            <DesktopNav authUser={authUser} handleLogout={handleLogout} />
+            <Desktop authUser={authUser} handleLogout={handleLogout} />
           ) : (
-            <MobileNav authUser={authUser} handleLogout={handleLogout} />
+            <Mobile authUser={authUser} handleLogout={handleLogout} />
           )}
         </Container>
       </Toolbar>

@@ -1,28 +1,18 @@
 import searchIcon from "@iconify/icons-carbon/search";
 import { Autocomplete, Box, Button, Stack, TextField, styled } from "@mui/material";
-import { UseQueryResult } from "@tanstack/react-query/src/types";
+import { useQuery } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Iconify from "@/components/Iconify";
-import { Company, Job } from "@/interfaces";
+import { City, Company, Job } from "@/interfaces";
+import { CitiesService, CompaniesService, JobsService } from "@/services/firebase/database";
 
 type Props = {
-  jobs: UseQueryResult<Job[], Error>;
-  companies: UseQueryResult<Company[], Error>;
   setFilters: (data: any) => void;
 };
 
 const RootStyle = styled("div")(() => ({
   width: "100%",
-  "& .MuiAutocomplete-root": {
-    "& .MuiInputAdornment-root": {
-      marginTop: "0 !important",
-    },
-    "& .MuiFilledInput-root": {
-      height: 56,
-      padding: "0 12px",
-    },
-  },
 }));
 
 export type form = {
@@ -31,15 +21,19 @@ export type form = {
   city: string;
 };
 
-const CareerJobFilters = ({ jobs, companies, setFilters }: Props) => {
+const CareerJobFilters = ({ setFilters }: Props) => {
+  const jobs = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
+  const companies = useQuery<Company[], Error>(["companies"], () => CompaniesService.getAll());
+  const cities = useQuery<City[], Error>(["cities"], () => CitiesService.getAll());
+
   const { register, handleSubmit } = useForm<form>();
 
-  if (jobs.isLoading || companies.isLoading) {
+  if (jobs.isLoading || companies.isLoading || cities.isLoading) {
     return <span>Loading...</span>;
   }
 
-  if (jobs.isError || companies.isError) {
-    return <span>Error: {jobs.error?.message || companies.error?.message}</span>;
+  if (jobs.isError || companies.isError || cities.isError) {
+    return <span>Error: {jobs.error?.message || companies.error?.message || cities.error?.message}</span>;
   }
 
   const submitForm: SubmitHandler<form> = async (data) => {
@@ -84,7 +78,7 @@ const CareerJobFilters = ({ jobs, companies, setFilters }: Props) => {
           <Autocomplete
             autoHighlight
             openOnFocus
-            options={["Lyon", "Paris"]}
+            options={cities.data.map((city) => city.name)}
             renderInput={(params) => (
               <TextField {...params} variant="outlined" label="Localisation" type="text" {...register("city")} />
             )}

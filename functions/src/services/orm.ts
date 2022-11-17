@@ -8,6 +8,7 @@ const slug = require("slug");
 export const TABLE_COMPANIES = "companies";
 export const TABLE_JOBS = "jobs";
 export const TABLE_COMPANY_JOB = "company_job";
+export const TABLE_CITY = "cities";
 
 export const findDocumentById = async (collection: string, id: string) => {
   const slugId = slug(id);

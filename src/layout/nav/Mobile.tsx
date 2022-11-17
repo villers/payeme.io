@@ -14,7 +14,7 @@ type Props = {
   authUser: IUser | null;
 };
 
-const MobileNav = ({ handleLogout, authUser }: Props) => {
+const Mobile = ({ handleLogout, authUser }: Props) => {
   let { pathname } = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -97,4 +97,4 @@ const MobileNav = ({ handleLogout, authUser }: Props) => {
   );
 };
 
-export default MobileNav;
+export default Mobile;

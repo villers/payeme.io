@@ -1,13 +1,29 @@
-import { AppBar, Button, Container, Link, Toolbar, Typography } from "@mui/material";
+import menuIcon from "@iconify/icons-carbon/menu";
+import {
+  AppBar,
+  Button,
+  Container,
+  IconButton,
+  Link,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+import Iconify from "@/components/Iconify";
 import { useStateContext } from "@/context";
 import { auth } from "@/firebase/config";
+import DesktopNav from "@/layout/DesktopNav";
+import MobileNav from "@/layout/MobileNav";
 import Routes from "@/routes";
 import { useAuthSignOut } from "@/services/firebase/auth/AuthHook";
 
 const Header = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   const {
     state: { authUser },
@@ -52,31 +68,10 @@ const Header = () => {
             </Link>
           </Typography>
 
-          <nav>
-            <Link href={Routes.company.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-              Entreprises
-            </Link>
-            <Link href={Routes.job.list} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-              Metiers
-            </Link>
-            <Link href={Routes.create} variant="button" color="text.primary" sx={{ my: 1, mx: 1.5 }}>
-              Ajouter un Métier
-            </Link>
-          </nav>
-
-          {authUser ? (
-            <Button variant="contained" color="error" sx={{ my: 1, mx: 1.5 }} onClick={handleLogout}>
-              logout
-            </Button>
+          {isDesktop ? (
+            <DesktopNav authUser={authUser} handleLogout={handleLogout} />
           ) : (
-            <>
-              <Button href={Routes.auth.register} variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }}>
-                Inscription
-              </Button>
-              <Button href={Routes.auth.login} variant="contained" color="success" sx={{ my: 1, mx: 1.5 }}>
-                Connexion
-              </Button>
-            </>
+            <MobileNav authUser={authUser} handleLogout={handleLogout} />
           )}
         </Container>
       </Toolbar>

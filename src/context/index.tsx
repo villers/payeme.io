@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from "react";
 
-type IUser = {
+export type IUser = {
   email: string | null;
   uid: string;
 };

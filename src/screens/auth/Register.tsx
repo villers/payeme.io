@@ -19,7 +19,6 @@ const ScreenRegister = () => {
 
   const { mutate, isError, error, isLoading } = useAuthCreateUserWithEmailAndPassword(auth, {
     onSuccess: (data) => {
-      console.log("success", data);
       dispatch({
         type: "SET_USER",
         payload: {

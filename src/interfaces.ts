@@ -1,14 +1,16 @@
 import { DocumentReference } from "@firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
-export interface Job {
+interface BaseRecord {
   id?: string;
   name: string;
 }
 
-export interface Company {
-  id?: string;
-  name: string;
+export interface Job extends BaseRecord {}
+
+export interface City extends BaseRecord {}
+
+export interface Company extends BaseRecord {
   jobs: Job[];
 }
 

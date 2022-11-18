@@ -10,8 +10,6 @@ import TextIconLabel from "@/components/TextIconLabel";
 import { Record } from "@/interfaces";
 import Routes from "@/routes";
 
-// ----------------------------------------------------------------------
-
 type Props = {
   record: Record;
 };

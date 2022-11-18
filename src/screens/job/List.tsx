@@ -6,7 +6,7 @@ import Routes from "@/routes";
 import { JobsService } from "@/services/firebase/database";
 
 const ScreenJobList = () => {
-  const { data, isError, isLoading, error } = useQuery<Job[], Error>(["jobs"], JobsService.getAll);
+  const { data, isError, isLoading, error } = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
 
   if (isLoading) {
     return <span>Loading...</span>;

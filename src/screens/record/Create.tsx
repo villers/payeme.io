@@ -1,12 +1,12 @@
-import { Autocomplete, Box, Button, Container, Slider, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Container, MenuItem, Slider, TextField, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { functions } from "@/firebase/config";
-import { Company, Job } from "@/interfaces";
+import { City, Company, Job } from "@/interfaces";
 import Routes from "@/routes";
-import { CompaniesService, JobsService } from "@/services/firebase/database";
+import { CitiesService, CompaniesService, JobsService } from "@/services/firebase/database";
 import { useFunctionsCall } from "@/services/firebase/functions/FunctionsHook";
 
 type addJobQuery = {
@@ -23,8 +23,9 @@ const ScreenRecordCreate = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<addJobQuery>();
 
-  const jobs = useQuery<Job[], Error>(["jobs"], JobsService.getAll);
-  const companies = useQuery<Company[], Error>(["companies"], CompaniesService.getAll);
+  const jobs = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
+  const companies = useQuery<Company[], Error>(["companies"], () => CompaniesService.getAll());
+  const cities = useQuery<City[], Error>(["cities"], () => CitiesService.getAll());
 
   const { mutate, isLoading } = useFunctionsCall(
     functions,
@@ -39,12 +40,12 @@ const ScreenRecordCreate = () => {
 
   const submitForm: SubmitHandler<addJobQuery> = (data) => mutate(data);
 
-  if (jobs.isLoading || companies.isLoading) {
+  if (jobs.isLoading || companies.isLoading || cities.isLoading) {
     return <span>Loading...</span>;
   }
 
-  if (jobs.isError || companies.isError) {
-    return <span>Error: {jobs.error?.message || companies.error?.message}</span>;
+  if (jobs.isError || companies.isError || cities.isError) {
+    return <span>Error: {jobs.error?.message || companies.error?.message || cities.error?.message}</span>;
   }
 
   return (
@@ -95,6 +96,25 @@ const ScreenRecordCreate = () => {
         </div>
 
         <div>
+          <Autocomplete
+            freeSolo
+            openOnFocus
+            options={cities.data.map((city) => city.name)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                fullWidth
+                label="Localisation"
+                variant="outlined"
+                type="text"
+                {...register("city")}
+                required
+              />
+            )}
+          />
+        </div>
+
+        <div>
           <TextField
             fullWidth
             label="Rémunération brute annuel"
@@ -108,7 +128,7 @@ const ScreenRecordCreate = () => {
         <div>
           <TextField
             fullWidth
-            label="Expérience"
+            label="Expérience en années"
             variant="outlined"
             type="number"
             {...register("experience")}
@@ -121,22 +141,18 @@ const ScreenRecordCreate = () => {
             fullWidth
             label="Niveau d'étude"
             variant="outlined"
-            type="text"
+            select
+            defaultValue="0"
             {...register("study_level")}
             required
-          />
-        </div>
-
-        <div>
-          <TextField
-            fullWidth
-            label="Localisation"
-            variant="outlined"
-            type="text"
-            autoComplete="Lyon"
-            {...register("city")}
-            required
-          />
+          >
+            <MenuItem value={0}>+0</MenuItem>
+            <MenuItem value={1}>+1</MenuItem>
+            <MenuItem value={2}>+2</MenuItem>
+            <MenuItem value={3}>+3</MenuItem>
+            <MenuItem value={4}>+4</MenuItem>
+            <MenuItem value={5}>+5</MenuItem>
+          </TextField>
         </div>
 
         <div>

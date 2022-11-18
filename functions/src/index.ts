@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 import * as slug from "slug";
 
 import {
+  TABLE_CITY,
   TABLE_COMPANIES,
   TABLE_COMPANY_JOB,
   TABLE_JOBS,
@@ -39,15 +40,22 @@ export const addJob = functions.https.onCall(async (data: form) => {
     await createDocument(TABLE_JOBS, { name: data.job }, data.job);
   }
 
+  // check if localisation exist or create
+  let cityRef = await findDocumentById(TABLE_CITY, data.city);
+  if (!cityRef.exists) {
+    await createDocument(TABLE_CITY, { name: data.city }, data.city);
+  }
+
   // add row to company_job
   const result = await createDocument(TABLE_COMPANY_JOB, {
     companyRef: await getRef(`${TABLE_COMPANIES}/${slug(data.company)}`),
     jobRef: await getRef(`${TABLE_JOBS}/${slug(data.job)}`),
+    cityRef: await getRef(`${TABLE_CITY}/${slug(data.city)}`),
+    city: data.city,
     company: data.company,
     job: data.job,
     salary: data.salary,
     study_level: data.study_level,
-    city: data.city,
     note: data.note,
     experience: data.experience,
     createdAt: getTimestampNow(),

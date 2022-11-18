@@ -12,6 +12,10 @@ service cloud.firestore {
       allow read: if true;
     }
 
+    match /cities/{city} {
+      allow read: if true;
+    }
+
     match /company_job/{record} {
       allow read: if true;
     }

@@ -1,14 +1,26 @@
 import { red } from "@mui/material/colors";
+import { PaletteOptions } from "@mui/material/styles/createPalette";
 
-const palette = {
+// https://bareynol.github.io/mui-theme-creator/
+const palette: PaletteOptions = {
   primary: {
-    main: "#556cd6",
+    main: "#1B0E37",
+    dark: "#483E5F",
   },
   secondary: {
-    main: "#19857b",
+    main: "#ffd500",
+  },
+  info: {
+    main: "#2196f3",
   },
   error: {
-    main: red.A400,
+    main: "#9d0208",
+  },
+  warning: {
+    main: "#ff5400",
+  },
+  success: {
+    main: "#55a630",
   },
 };
 

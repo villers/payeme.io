@@ -1,4 +1,3 @@
-import { red } from "@mui/material/colors";
 import { PaletteOptions } from "@mui/material/styles/createPalette";
 
 // https://bareynol.github.io/mui-theme-creator/

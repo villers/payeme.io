@@ -14,7 +14,7 @@ type Props = {
   record: Record;
 };
 
-const CareerJobItem = ({ record }: Props) => {
+const HomeItem = ({ record }: Props) => {
   const { job, salary, city, company, note, study_level, experience, createdAt, jobRef, companyRef } = record;
 
   return (
@@ -80,4 +80,4 @@ const CareerJobItem = ({ record }: Props) => {
   );
 };
 
-export default CareerJobItem;
+export default HomeItem;

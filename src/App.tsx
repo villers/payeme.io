@@ -1,17 +1,16 @@
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "@/App.css";
+import LoadingScreen from "@/components/LoadingSreeen";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
 const ScreenHome = lazy(() => import("@/screens/Home"));
-const ScreenCompanyList = lazy(() => import("@/screens/company/List"));
 const ScreenBookDetail = lazy(() => import("@/screens/company/Detail"));
 const ScreenRegister = lazy(() => import("@/screens/auth/Register"));
 const ScreenRecordCreate = lazy(() => import("@/screens/record/Create"));
 const ScreenJobDetail = lazy(() => import("@/screens/job/Detail"));
-const ScreenJobList = lazy(() => import("@/screens/job/List"));
 const ScreenLogin = lazy(() => import("@/screens/auth/Login"));
 const ScreenNotFound = lazy(() => import("@/screens/NotFound"));
 
@@ -19,13 +18,11 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<ScreenHome />} />
           <Route path="/create" element={<ScreenRecordCreate />} />
-          <Route path="/company" element={<ScreenCompanyList />} />
           <Route path="/company/:name" element={<ScreenBookDetail />} />
-          <Route path="/job" element={<ScreenJobList />} />
           <Route path="/job/:name" element={<ScreenJobDetail />} />
           <Route path="/login" element={<ScreenLogin />} />
           <Route path="/register" element={<ScreenRegister />} />

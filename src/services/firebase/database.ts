@@ -1,11 +1,11 @@
-import { DocumentData, DocumentReference, Query } from "@firebase/firestore";
+import { DocumentReference, Query } from "@firebase/firestore";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 import { firestore } from "@/firebase/config";
 import { City, Company, Job, Record } from "@/interfaces";
 
 interface FilterParams {
-  [k: string]: string;
+  [k: string]: string | DocumentReference | undefined;
 }
 
 class DatabaseService<T> {
@@ -41,7 +41,19 @@ class DatabaseService<T> {
     const docRef = doc(firestore, this.collectionName, id);
     const snapshot = await getDoc(docRef);
 
-    return snapshot.data() as T;
+    const data = snapshot.data() as T;
+
+    return new Promise<T>((resolve, reject) => {
+      if (data === undefined) {
+        return reject("Document not found");
+      }
+
+      return resolve(data);
+    });
+  };
+
+  getDocumentRef = async (id: any): Promise<DocumentReference> => {
+    return doc(firestore, this.collectionName, id);
   };
 
   getRef = async (docRef: DocumentReference<T>): Promise<T> => {

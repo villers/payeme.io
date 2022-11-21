@@ -1,5 +1,6 @@
 import React from "react";
 
+import LoadingScreen from "@/components/LoadingSreeen";
 import { useStateContext } from "@/context";
 import { auth } from "@/firebase/config";
 import { useAuthStateChanged } from "@/services/firebase/auth/AuthHook";
@@ -18,7 +19,7 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({ children }) => {
   });
 
   if (query.isLoading) {
-    return <div>Loading auth</div>;
+    return <LoadingScreen />;
   }
 
   return children;

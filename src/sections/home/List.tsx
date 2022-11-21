@@ -2,14 +2,14 @@ import { Box, Pagination } from "@mui/material";
 
 import JobItemSkeleton from "@/components/skeleton/JobItem";
 import { Record } from "@/interfaces";
-import CareerJobItem from "@/sections/jobs/Item";
+import HomeItem from "@/sections/home/Item";
 
 type Pros = {
   jobs: Record[];
   loading: boolean;
 };
 
-const CareerJobList = ({ jobs, loading }: Pros) => {
+const HomeList = ({ jobs, loading }: Pros) => {
   return (
     <>
       <Box
@@ -25,7 +25,7 @@ const CareerJobList = ({ jobs, loading }: Pros) => {
         }}
       >
         {(loading ? [...Array(6)] : jobs).map((job, index) =>
-          job ? <CareerJobItem key={job.id} record={job} /> : <JobItemSkeleton key={index} />
+          job ? <HomeItem key={job.id} record={job} /> : <JobItemSkeleton key={index} />
         )}
       </Box>
 
@@ -45,4 +45,4 @@ const CareerJobList = ({ jobs, loading }: Pros) => {
   );
 };
 
-export default CareerJobList;
+export default HomeList;

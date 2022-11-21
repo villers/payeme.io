@@ -9,7 +9,16 @@ import "@/index.css";
 import AuthMiddleware from "@/services/firebase/auth/AuthMiddleware";
 import ThemeProvider from "@/theme/ThemeProvider";
 
-const queryClient = new QueryClient();
+const seconds = 1000;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      staleTime: 60 * seconds,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <QueryClientProvider client={queryClient}>

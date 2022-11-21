@@ -1,22 +1,12 @@
-import { Container, styled } from "@mui/material";
+import { Container } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import Page from "@/components/Page";
 import { Record } from "@/interfaces";
-import CareerJobFilters, { form } from "@/sections/jobs/Filter";
-import CareerJobList from "@/sections/jobs/List";
+import HomeFilters, { form } from "@/sections/home/Filter";
+import HomeList from "@/sections/home/List";
 import { RecordsService } from "@/services/firebase/database";
-
-const HEADER_MOBILE_HEIGHT = 64;
-const HEADER_DESKTOP_HEIGHT = 96;
-
-const RootStyle = styled("div")(({ theme }) => ({
-  paddingTop: HEADER_MOBILE_HEIGHT,
-  [theme.breakpoints.up("md")]: {
-    paddingTop: HEADER_DESKTOP_HEIGHT,
-  },
-}));
 
 const ScreenHome = () => {
   const [filters, setFilters] = useState<form>({
@@ -41,12 +31,10 @@ const ScreenHome = () => {
 
   return (
     <Page title="Jobs - Career">
-      <RootStyle>
-        <Container>
-          <CareerJobFilters setFilters={setFilters} />
-          <CareerJobList jobs={jobs} loading={isLoading} />
-        </Container>
-      </RootStyle>
+      <Container>
+        <HomeFilters setFilters={setFilters} />
+        <HomeList jobs={jobs} loading={isLoading} />
+      </Container>
     </Page>
   );
 };

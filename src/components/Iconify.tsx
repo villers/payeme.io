@@ -5,7 +5,7 @@ import { SxProps } from "@mui/system";
 
 type Props = {
   icon: string | any;
-  sx: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 };
 
 const Iconify = ({ icon, sx, ...other }: Props) => {

@@ -1,5 +1,4 @@
 import { Button, Container, Pagination } from "@mui/material";
-import { InfiniteData } from "@tanstack/query-core/build/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -26,7 +25,10 @@ const ScreenHome = () => {
     },
     {
       getNextPageParam: (records, pages) => {
-        return records[records.length - 1].doc || null;
+        if (records.length > 0) {
+          return records[records.length - 1].doc;
+        }
+        return false;
       },
     }
   );

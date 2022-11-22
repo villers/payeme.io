@@ -42,7 +42,7 @@ const Header = () => {
       elevation={0}
       sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
     >
-      <Toolbar sx={{ flexWrap: "wrap" }}>
+      <Toolbar disableGutters>
         <Container
           sx={{
             display: "flex",
@@ -51,9 +51,7 @@ const Header = () => {
           }}
         >
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            <Link href={Routes.home} underline="none">
-              PAYEME.IO
-            </Link>
+            <Link href={Routes.home}>PAYEME.IO</Link>
           </Typography>
 
           {isDesktop ? (

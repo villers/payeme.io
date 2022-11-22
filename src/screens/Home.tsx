@@ -1,22 +1,13 @@
-import { Container, styled } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { Button, Container, Pagination } from "@mui/material";
+import { InfiniteData } from "@tanstack/query-core/build/lib/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import Page from "@/components/Page";
 import { Record } from "@/interfaces";
-import CareerJobFilters, { form } from "@/sections/jobs/Filter";
-import CareerJobList from "@/sections/jobs/List";
+import HomeFilters, { form } from "@/sections/home/Filter";
+import HomeList from "@/sections/home/List";
 import { RecordsService } from "@/services/firebase/database";
-
-const HEADER_MOBILE_HEIGHT = 64;
-const HEADER_DESKTOP_HEIGHT = 96;
-
-const RootStyle = styled("div")(({ theme }) => ({
-  paddingTop: HEADER_MOBILE_HEIGHT,
-  [theme.breakpoints.up("md")]: {
-    paddingTop: HEADER_DESKTOP_HEIGHT,
-  },
-}));
 
 const ScreenHome = () => {
   const [filters, setFilters] = useState<form>({
@@ -25,8 +16,19 @@ const ScreenHome = () => {
     company: "",
   });
 
-  const { data, isError, isLoading, error, refetch } = useQuery<Record[], Error>(["record"], () =>
-    RecordsService.getAll(filters)
+  const { data, isError, isLoading, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+    Record[],
+    Error
+  >(
+    ["records"],
+    (query) => {
+      return RecordsService.getAll(filters, query.pageParam);
+    },
+    {
+      getNextPageParam: (records, pages) => {
+        return records[records.length - 1].doc || null;
+      },
+    }
   );
 
   if (isError) {
@@ -37,16 +39,29 @@ const ScreenHome = () => {
     refetch();
   }, [filters]);
 
-  const jobs = data || [];
+  const pageJobs: Record[][] | never[] = data?.pages || [];
 
   return (
     <Page title="Jobs - Career">
-      <RootStyle>
-        <Container>
-          <CareerJobFilters setFilters={setFilters} />
-          <CareerJobList jobs={jobs} loading={isLoading} />
-        </Container>
-      </RootStyle>
+      <Container>
+        <HomeFilters setFilters={setFilters} />
+        <HomeList pageJobs={pageJobs} loading={isLoading} />
+        {hasNextPage && (
+          <Button
+            variant="contained"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            sx={{
+              mt: 5,
+              "& .MuiPagination-ul": {
+                justifyContent: "center",
+              },
+            }}
+          >
+            {isFetchingNextPage ? "Chargement..." : "Charger plus"}
+          </Button>
+        )}
+      </Container>
     </Page>
   );
 };

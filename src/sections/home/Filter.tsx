@@ -21,7 +21,7 @@ export type form = {
   city: string;
 };
 
-const CareerJobFilters = ({ setFilters }: Props) => {
+const HomeFilters = ({ setFilters }: Props) => {
   const jobs = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
   const companies = useQuery<Company[], Error>(["companies"], () => CompaniesService.getAll());
   const cities = useQuery<City[], Error>(["cities"], () => CitiesService.getAll());
@@ -101,4 +101,4 @@ const CareerJobFilters = ({ setFilters }: Props) => {
   );
 };
 
-export default CareerJobFilters;
+export default HomeFilters;

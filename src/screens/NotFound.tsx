@@ -24,10 +24,10 @@ const ScreenNotfound = () => {
         404
       </Typography>
       <Typography variant="h6" style={{ color: "white" }}>
-        The page you’re looking for doesn’t exist.
+        La page n'existe pas.
       </Typography>
       <Link href={Routes.home}>
-        <Button variant="contained">Back Home</Button>
+        <Button variant="contained">Retourner sur la page d'accueil</Button>
       </Link>
     </Box>
   );

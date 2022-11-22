@@ -15,6 +15,7 @@ export interface Company extends BaseRecord {
 }
 
 export interface Record {
+  doc: any;
   id: string;
   city: string;
   companyRef: DocumentReference<Company>;

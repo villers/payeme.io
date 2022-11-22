@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import LoadingScreen from "@/components/LoadingSreeen";
+import { StudyLevelData } from "@/components/StudyLevel";
 import { functions } from "@/firebase/config";
 import { City, Company, Job } from "@/interfaces";
 import Routes from "@/routes";
@@ -18,17 +19,6 @@ type addJobQuery = {
   city: string;
   note: number;
   experience: number;
-};
-
-export const StudyLevel: any = {
-  "-1": "Pas de diplôme",
-  "0": "CAP, BEP",
-  "1": "Baccalauréat ",
-  "2": "DEUG, BTS, DUT, DEUST",
-  "3": "Licence, Licence LMD, licence professionnelle",
-  "4": "Maîtrise",
-  "5": "Master, DEA, DESS, diplôme d'ingénieur",
-  "8": "Doctorat, habilitation à diriger des recherches",
 };
 
 const RecordForm = () => {
@@ -157,9 +147,9 @@ const RecordForm = () => {
           {...register("study_level")}
           required
         >
-          {Object.keys(StudyLevel).map((index) => (
+          {Object.keys(StudyLevelData).map((index) => (
             <MenuItem value={index} key={index}>
-              {StudyLevel[index]}
+              {StudyLevelData[index]}
             </MenuItem>
           ))}
         </TextField>

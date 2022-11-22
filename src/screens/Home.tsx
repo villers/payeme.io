@@ -1,5 +1,6 @@
-import { Container } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { Button, Container, Pagination } from "@mui/material";
+import { InfiniteData } from "@tanstack/query-core/build/lib/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import Page from "@/components/Page";
@@ -15,8 +16,19 @@ const ScreenHome = () => {
     company: "",
   });
 
-  const { data, isError, isLoading, error, refetch } = useQuery<Record[], Error>(["record"], () =>
-    RecordsService.getAll(filters)
+  const { data, isError, isLoading, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<
+    Record[],
+    Error
+  >(
+    ["records"],
+    (query) => {
+      return RecordsService.getAll(filters, query.pageParam);
+    },
+    {
+      getNextPageParam: (records, pages) => {
+        return records[records.length - 1].doc || null;
+      },
+    }
   );
 
   if (isError) {
@@ -27,13 +39,28 @@ const ScreenHome = () => {
     refetch();
   }, [filters]);
 
-  const jobs = data || [];
+  const pageJobs: Record[][] | never[] = data?.pages || [];
 
   return (
     <Page title="Jobs - Career">
       <Container>
         <HomeFilters setFilters={setFilters} />
-        <HomeList jobs={jobs} loading={isLoading} />
+        <HomeList pageJobs={pageJobs} loading={isLoading} />
+        {hasNextPage && (
+          <Button
+            variant="contained"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            sx={{
+              mt: 5,
+              "& .MuiPagination-ul": {
+                justifyContent: "center",
+              },
+            }}
+          >
+            {isFetchingNextPage ? "Chargement..." : "Charger plus"}
+          </Button>
+        )}
       </Container>
     </Page>
   );

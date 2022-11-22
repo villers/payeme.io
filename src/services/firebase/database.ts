@@ -1,5 +1,5 @@
 import { DocumentReference, Query } from "@firebase/firestore";
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, query, startAfter, where } from "firebase/firestore";
 
 import { firestore } from "@/firebase/config";
 import { City, Company, Job, Record } from "@/interfaces";
@@ -15,23 +15,25 @@ class DatabaseService<T> {
     this.collection = collection(firestore, collectionName);
   }
 
-  getAll = async (filters: FilterParams = {}): Promise<T[]> => {
-    const snapshot = await getDocs<T[]>(
-      query.call(
-        this,
-        this.collection,
-        ...Object.keys(filters)
-          .filter((key) => filters[key] != "")
-          .map((key) => {
-            return where(key, "==", filters[key]);
-          })
-      ) as Query<T[]>
-    );
+  getAll = async (filters: FilterParams = {}, lastDoc: any = null, limitValue: number = 100): Promise<T[]> => {
+    const buildFilter = [
+      ...Object.keys(filters)
+        .filter((key) => filters[key] != "")
+        .map((key) => {
+          return where(key, "==", filters[key]);
+        }),
+      limit(limitValue),
+    ];
+    if (lastDoc) {
+      buildFilter.push(startAfter(lastDoc));
+    }
+    const snapshot = await getDocs<T[]>(query.call(this, this.collection, ...buildFilter) as Query<T[]>);
 
     return snapshot.docs.map(
       (doc) =>
         ({
           id: doc.id,
+          doc,
           ...doc.data(),
         } as T)
     );

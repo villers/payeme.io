@@ -16,7 +16,7 @@ const CompanyDetail = ({ company, avgSalary, companyCount }: Props) => {
       </Typography>
 
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Le salaires moyen est de {avgSalary.toFixed(1)}
+        Le salaires moyen est de {avgSalary.toFixed(1)} €
       </Typography>
       <Typography variant="h4" sx={{ mb: 3 }}>
         {companyCount} salaires

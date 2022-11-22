@@ -6,6 +6,7 @@ import learnIcone from "@iconify/icons-dashicons/welcome-learn-more";
 import { Card, Divider, Grid, Link, Stack, Typography } from "@mui/material";
 
 import Iconify from "@/components/Iconify";
+import StudyLevel from "@/components/StudyLevel";
 import TextIconLabel from "@/components/TextIconLabel";
 import { Record } from "@/interfaces";
 import Routes from "@/routes";
@@ -37,7 +38,7 @@ const HomeItem = ({ record }: Props) => {
         </Stack>
 
         <Typography variant="caption" sx={{ color: "text.disabled" }}>
-          {`Posted day: ${createdAt.toDate().toDateString()}`}
+          {createdAt.toDate().toLocaleDateString()}
         </Typography>
       </Stack>
 
@@ -56,23 +57,31 @@ const HomeItem = ({ record }: Props) => {
       >
         <Grid item xs={6}>
           <TextIconLabel
+            sx={{ textTransform: "none" }}
             icon={<Iconify icon={increaseLevel} sx={{ width: 20, height: 20, mr: 1 }} />}
-            value={`${experience} année d'éxperience`}
+            value={`${experience} an(s) xp`}
           />
         </Grid>
 
         <Grid item xs={6}>
-          <TextIconLabel icon={<Iconify icon={starIcon} sx={{ width: 20, height: 20, mr: 1 }} />} value={note} />
-        </Grid>
-
-        <Grid item xs={6}>
-          <TextIconLabel icon={<Iconify icon={moneyIcon} sx={{ width: 20, height: 20, mr: 1 }} />} value={salary} />
+          <TextIconLabel
+            icon={<Iconify icon={starIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
+            value={<span>{note}/5</span>}
+          />
         </Grid>
 
         <Grid item xs={6}>
           <TextIconLabel
+            icon={<Iconify icon={moneyIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
+            value={<span>{salary} €</span>}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <TextIconLabel
+            sx={{ textTransform: "none" }}
             icon={<Iconify icon={learnIcone} sx={{ width: 20, height: 20, mr: 1 }} />}
-            value={study_level}
+            value={<StudyLevel index={study_level} />}
           />
         </Grid>
       </Grid>

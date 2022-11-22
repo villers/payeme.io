@@ -1,47 +1,33 @@
-import { Box, Pagination } from "@mui/material";
+import { Box } from "@mui/material";
+import { InfiniteData } from "@tanstack/query-core/build/lib/types";
 
 import JobItemSkeleton from "@/components/skeleton/JobItem";
 import { Record } from "@/interfaces";
 import HomeItem from "@/sections/home/Item";
 
 type Pros = {
-  jobs: Record[];
+  pageJobs: Record[][];
   loading: boolean;
 };
 
-const HomeList = ({ jobs, loading }: Pros) => {
+const HomeList = ({ pageJobs, loading }: Pros) => {
   return (
-    <>
-      <Box
-        sx={{
-          display: "grid",
-          rowGap: { xs: 4, md: 5 },
-          columnGap: 4,
-          gridTemplateColumns: {
-            xs: "repeat(1, 1fr)",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-          },
-        }}
-      >
-        {(loading ? [...Array(6)] : jobs).map((job, index) =>
-          job ? <HomeItem key={job.id} record={job} /> : <JobItemSkeleton key={index} />
-        )}
-      </Box>
-
-      <Pagination
-        count={10}
-        color="primary"
-        size="large"
-        sx={{
-          pt: 10,
-          pb: { xs: 10, md: 15 },
-          "& .MuiPagination-ul": {
-            justifyContent: "center",
-          },
-        }}
-      />
-    </>
+    <Box
+      sx={{
+        display: "grid",
+        rowGap: { xs: 4, md: 5 },
+        columnGap: 4,
+        gridTemplateColumns: {
+          xs: "repeat(1, 1fr)",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)",
+        },
+      }}
+    >
+      {loading && [...Array(6)].map((job, index) => <JobItemSkeleton key={index} />)}
+      {!loading &&
+        pageJobs.map((pages, index) => pages.map((record, index) => <HomeItem key={record.id} record={record} />))}
+    </Box>
   );
 };
 

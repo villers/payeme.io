@@ -1,4 +1,5 @@
 import menuIcon from "@iconify/icons-carbon/menu";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import { Box, Button, Drawer, IconButton, Link, List, ListItemButton, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -34,9 +35,13 @@ const Mobile = ({ handleLogout, authUser }: Props) => {
 
   return (
     <>
+      <IconButton size="large" href="//github.com/villers/payeme.io" target="_blank" color="inherit">
+        <GitHubIcon />
+      </IconButton>
       <IconButton size="medium" onClick={handleDrawerOpen}>
         <Iconify icon={menuIcon} />
       </IconButton>
+
       <Drawer
         open={drawerOpen}
         onClose={handleDrawerClose}

@@ -17,9 +17,6 @@ const Footer = () => {
   return (
     <Box component="footer" sx={{ bgcolor: "background.paper", py: 6 }}>
       <Container maxWidth="lg">
-        <Typography variant="subtitle1" align="center" color="text.secondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
         <Copyright />
       </Container>
     </Box>

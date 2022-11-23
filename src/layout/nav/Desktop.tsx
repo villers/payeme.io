@@ -1,4 +1,5 @@
-import { Button, Link } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { Button, IconButton, Link } from "@mui/material";
 
 import { IUser } from "@/context";
 import Routes from "@/routes";
@@ -16,6 +17,10 @@ const Desktop = ({ handleLogout, authUser }: Props) => {
           Ajouter un Métier
         </Link>
       </nav>
+
+      <IconButton size="large" href="//github.com/villers/payeme.io" target="_blank" color="inherit">
+        <GitHubIcon />
+      </IconButton>
 
       {authUser ? (
         <Button variant="contained" color="warning" sx={{ mx: 1.5 }} onClick={handleLogout}>

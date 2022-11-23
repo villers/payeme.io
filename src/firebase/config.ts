@@ -1,4 +1,5 @@
 import { initializeApp } from "@firebase/app";
+import { ReCaptchaV3Provider, initializeAppCheck } from "@firebase/app-check";
 import { connectAuthEmulator, getAuth } from "@firebase/auth";
 import { connectDatabaseEmulator, getDatabase } from "@firebase/database";
 import { connectFirestoreEmulator, getFirestore } from "@firebase/firestore";
@@ -21,6 +22,11 @@ const db = getDatabase(app);
 const firestore = getFirestore(app);
 const functions = getFunctions(app);
 
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_PUBLIC),
+  isTokenAutoRefreshEnabled: true,
+});
+
 if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectDatabaseEmulator(db, "localhost", 9000);
   connectFirestoreEmulator(firestore, "localhost", 8080);
@@ -28,4 +34,4 @@ if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectFunctionsEmulator(functions, "localhost", 5001);
 }
 
-export { auth, db, firestore, functions };
+export { app, auth, db, firestore, functions };

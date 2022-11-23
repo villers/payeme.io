@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "@/App.css";
 import LoadingScreen from "@/components/LoadingSreeen";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 
@@ -21,7 +22,14 @@ function App() {
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route path="/" element={<ScreenHome />} />
-          <Route path="/create" element={<ScreenRecordCreate />} />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <ScreenRecordCreate />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/company/:name" element={<ScreenBookDetail />} />
           <Route path="/job/:name" element={<ScreenJobDetail />} />
           <Route path="/login" element={<ScreenLogin />} />

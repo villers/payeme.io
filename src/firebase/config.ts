@@ -22,16 +22,21 @@ const db = getDatabase(app);
 const firestore = getFirestore(app);
 const functions = getFunctions(app);
 
-initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_PUBLIC),
-  isTokenAutoRefreshEnabled: true,
-});
-
 if (["localhost", "127.0.0.1"].includes(location.hostname)) {
   connectDatabaseEmulator(db, "localhost", 9000);
   connectFirestoreEmulator(firestore, "localhost", 8080);
   connectAuthEmulator(auth, "http://localhost:9099");
   connectFunctionsEmulator(functions, "localhost", 5001);
 }
+
+// use custom firebase token in dev and preview
+if (import.meta.env.VITE_FIREBASE_APP_CHECK_DEBUG_TOKEN_FROM_CI) {
+  (<any>window).FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.VITE_FIREBASE_APP_CHECK_DEBUG_TOKEN_FROM_CI;
+}
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_PUBLIC),
+  isTokenAutoRefreshEnabled: true,
+});
 
 export { app, auth, db, firestore, functions };

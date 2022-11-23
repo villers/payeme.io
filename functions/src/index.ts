@@ -25,43 +25,56 @@ type form = {
   note: number;
 };
 
-export const addJob = functions.https.onCall(async (data: form) => {
-  functions.logger.info("Hello addJobs!", { structuredData: true });
+export const addJob = functions
+  .runWith({
+    enforceAppCheck: true, // Requests without valid App Check tokens will be rejected.
+  })
+  .https.onCall(async (data: form, context) => {
+    if (context.app == undefined) {
+      functions.logger.error("Context is undefined", { structuredData: true });
+      throw new functions.https.HttpsError(
+        "failed-precondition",
+        "The function must be called from an App Check verified app."
+      );
+    }
 
-  // check if company exist or create
-  let companyRef = await findDocumentById(TABLE_COMPANIES, data.company);
-  if (!companyRef.exists) {
-    await createDocument(TABLE_COMPANIES, { name: data.company }, data.company);
-  }
+    // check if company exist or create
+    let companyRef = await findDocumentById(TABLE_COMPANIES, data.company);
+    if (!companyRef.exists) {
+      functions.logger.info(`Company ${data.company} is created`, { structuredData: true });
+      await createDocument(TABLE_COMPANIES, { name: data.company }, data.company);
+    }
 
-  // check if job exist or create
-  let jobRef = await findDocumentById(TABLE_JOBS, data.job);
-  if (!jobRef.exists) {
-    await createDocument(TABLE_JOBS, { name: data.job }, data.job);
-  }
+    // check if job exist or create
+    let jobRef = await findDocumentById(TABLE_JOBS, data.job);
+    if (!jobRef.exists) {
+      functions.logger.info(`Job ${data.job} is created`, { structuredData: true });
+      await createDocument(TABLE_JOBS, { name: data.job }, data.job);
+    }
 
-  // check if localisation exist or create
-  let cityRef = await findDocumentById(TABLE_CITY, data.city);
-  if (!cityRef.exists) {
-    await createDocument(TABLE_CITY, { name: data.city }, data.city);
-  }
+    // check if localisation exist or create
+    let cityRef = await findDocumentById(TABLE_CITY, data.city);
+    if (!cityRef.exists) {
+      functions.logger.info(`City ${data.city} is created`, { structuredData: true });
+      await createDocument(TABLE_CITY, { name: data.city }, data.city);
+    }
 
-  // add row to company_job
-  const result = await createDocument(TABLE_COMPANY_JOB, {
-    companyRef: await getRef(`${TABLE_COMPANIES}/${slug(data.company)}`),
-    jobRef: await getRef(`${TABLE_JOBS}/${slug(data.job)}`),
-    cityRef: await getRef(`${TABLE_CITY}/${slug(data.city)}`),
-    city: data.city,
-    company: data.company,
-    job: data.job,
-    salary: data.salary,
-    study_level: data.study_level,
-    note: data.note,
-    experience: data.experience,
-    createdAt: getTimestampNow(),
+    // add row to company_job
+    const result = await createDocument(TABLE_COMPANY_JOB, {
+      companyRef: await getRef(`${TABLE_COMPANIES}/${slug(data.company)}`),
+      jobRef: await getRef(`${TABLE_JOBS}/${slug(data.job)}`),
+      cityRef: await getRef(`${TABLE_CITY}/${slug(data.city)}`),
+      city: data.city,
+      company: data.company,
+      job: data.job,
+      salary: data.salary,
+      study_level: data.study_level,
+      note: data.note,
+      experience: data.experience,
+      createdAt: getTimestampNow(),
+    });
+
+    functions.logger.info(result, { structuredData: true });
+
+    return { message: "ok" };
   });
-
-  functions.logger.info(result, { structuredData: true });
-
-  return { message: "Hello from Firebase!" };
-});

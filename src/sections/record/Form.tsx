@@ -1,5 +1,7 @@
 import { Autocomplete, Box, Button, MenuItem, Slider, TextField, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +26,9 @@ type addJobQuery = {
 const RecordForm = () => {
   const navigate = useNavigate();
 
+  const captchaAction = "addJob";
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
   const jobs = useQuery<Job[], Error>(["jobs"], () => JobsService.getAll());
   const companies = useQuery<Company[], Error>(["companies"], () => CompaniesService.getAll());
   const cities = useQuery<City[], Error>(["cities"], () => CitiesService.getAll());
@@ -40,7 +45,23 @@ const RecordForm = () => {
   );
 
   const { register, handleSubmit } = useForm<addJobQuery>();
-  const submitForm: SubmitHandler<addJobQuery> = (data) => mutate(data);
+  const submitForm: SubmitHandler<addJobQuery> = useCallback(
+    async (data) => {
+      if (!executeRecaptcha) {
+        console.log("Execute recaptcha not yet available");
+        return false;
+      }
+      const token = await executeRecaptcha(captchaAction);
+
+      console.log(token);
+      if (token === "") {
+        console.log("Token is invalide");
+        return false;
+      }
+      mutate(data);
+    },
+    [executeRecaptcha]
+  );
 
   if (jobs.isLoading || companies.isLoading || cities.isLoading) {
     return <LoadingScreen />;

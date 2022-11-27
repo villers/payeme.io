@@ -28,10 +28,6 @@ const HomeFilters = ({ setFilters }: Props) => {
 
   const { register, handleSubmit } = useForm<form>();
 
-  if (jobs.isLoading || companies.isLoading || cities.isLoading) {
-    return <span>Loading...</span>;
-  }
-
   if (jobs.isError || companies.isError || cities.isError) {
     return <span>Error: {jobs.error?.message || companies.error?.message || cities.error?.message}</span>;
   }
@@ -58,7 +54,7 @@ const HomeFilters = ({ setFilters }: Props) => {
           <Autocomplete
             autoHighlight
             openOnFocus
-            options={companies.data.map((company) => company.name)}
+            options={companies.isLoading ? [] : companies.data.map((company) => company.name)}
             renderInput={(params) => (
               <TextField {...params} variant="outlined" label="Entreprise" type="text" {...register("company")} />
             )}
@@ -68,7 +64,7 @@ const HomeFilters = ({ setFilters }: Props) => {
           <Autocomplete
             autoHighlight
             openOnFocus
-            options={jobs.data.map((jobs) => jobs.name)}
+            options={jobs.isLoading ? [] : jobs.data.map((jobs) => jobs.name)}
             renderInput={(params) => (
               <TextField {...params} variant="outlined" label="Intitulé du poste" type="text" {...register("job")} />
             )}
@@ -78,7 +74,7 @@ const HomeFilters = ({ setFilters }: Props) => {
           <Autocomplete
             autoHighlight
             openOnFocus
-            options={cities.data.map((city) => city.name)}
+            options={cities.isLoading ? [] : cities.data.map((city) => city.name)}
             renderInput={(params) => (
               <TextField {...params} variant="outlined" label="Localisation" type="text" {...register("city")} />
             )}

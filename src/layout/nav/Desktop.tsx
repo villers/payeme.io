@@ -14,7 +14,7 @@ const Desktop = ({ handleLogout, authUser }: Props) => {
     <>
       <nav>
         <Link href={Routes.create} variant="button" sx={{ mx: 1.5 }}>
-          Ajouter un Métier
+          Partager mon salaire
         </Link>
       </nav>
 

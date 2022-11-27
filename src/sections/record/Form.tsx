@@ -10,6 +10,7 @@ import * as yup from "yup";
 
 import LoadingScreen from "@/components/LoadingSreeen";
 import { StudyLevelData } from "@/components/StudyLevel";
+import { useStateContext } from "@/context";
 import { functions } from "@/firebase/config";
 import { City, Company, Job } from "@/interfaces";
 import Routes from "@/routes";
@@ -27,6 +28,10 @@ type addJobQuery = {
 };
 
 const RecordForm = () => {
+  const {
+    state: { authUser },
+  } = useStateContext();
+
   const navigate = useNavigate();
 
   const captchaAction = "addJob";
@@ -80,7 +85,7 @@ const RecordForm = () => {
         console.log("Token is invalide");
         return false;
       }
-      mutate(data);
+      mutate({ ...data, userId: authUser?.uid, userEmail: authUser?.email });
     },
     [executeRecaptcha]
   );

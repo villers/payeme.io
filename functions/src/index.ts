@@ -23,6 +23,8 @@ type form = {
   city: string;
   experience: string;
   note: number;
+  userId: string;
+  userEmail: string;
 };
 
 export const addJob = functions
@@ -38,25 +40,31 @@ export const addJob = functions
       );
     }
 
+    const userData = {
+      userId: data.userId,
+      userEmail: data.userEmail,
+    };
+
+
     // check if company exist or create
     let companyRef = await findDocumentById(TABLE_COMPANIES, data.company);
     if (!companyRef.exists) {
       functions.logger.info(`Company ${data.company} is created`, { structuredData: true });
-      await createDocument(TABLE_COMPANIES, { name: data.company }, data.company);
+      await createDocument(TABLE_COMPANIES, { name: data.company, ...userData }, data.company);
     }
 
     // check if job exist or create
     let jobRef = await findDocumentById(TABLE_JOBS, data.job);
     if (!jobRef.exists) {
       functions.logger.info(`Job ${data.job} is created`, { structuredData: true });
-      await createDocument(TABLE_JOBS, { name: data.job }, data.job);
+      await createDocument(TABLE_JOBS, { name: data.job, ...userData }, data.job);
     }
 
     // check if localisation exist or create
     let cityRef = await findDocumentById(TABLE_CITY, data.city);
     if (!cityRef.exists) {
       functions.logger.info(`City ${data.city} is created`, { structuredData: true });
-      await createDocument(TABLE_CITY, { name: data.city }, data.city);
+      await createDocument(TABLE_CITY, { name: data.city, ...userData }, data.city);
     }
 
     // add row to company_job
@@ -71,6 +79,8 @@ export const addJob = functions
       study_level: data.study_level,
       note: data.note,
       experience: data.experience,
+      userId: userData.userId,
+      userEmail: userData.userEmail,
       createdAt: getTimestampNow(),
     });
 

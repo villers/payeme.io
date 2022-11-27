@@ -1,9 +1,12 @@
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Autocomplete, Box, Button, MenuItem, Slider, TextField, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
 
 import LoadingScreen from "@/components/LoadingSreeen";
 import { StudyLevelData } from "@/components/StudyLevel";
@@ -44,7 +47,26 @@ const RecordForm = () => {
     }
   );
 
-  const { register, handleSubmit } = useForm<addJobQuery>();
+  const schema = yup
+    .object()
+    .shape({
+      company: yup.string().required(),
+      job: yup.string().required(),
+      salary: yup.number().min(1000).required(),
+      study_level: yup.string().required(),
+      city: yup.string().required(),
+      note: yup.number().min(0).max(5).required(),
+      experience: yup.number().required(),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<addJobQuery>({
+    resolver: yupResolver(schema),
+  });
   const submitForm: SubmitHandler<addJobQuery> = useCallback(
     async (data) => {
       if (!executeRecaptcha) {
@@ -91,13 +113,13 @@ const RecordForm = () => {
               label="Entreprise"
               variant="outlined"
               type="text"
+              error={errors.company?.message != undefined}
+              helperText={<ErrorMessage errors={errors} name="company" />}
               {...register("company")}
-              required
             />
           )}
         />
       </div>
-
       <div>
         <Autocomplete
           freeSolo
@@ -110,13 +132,13 @@ const RecordForm = () => {
               label="Intitulé du poste"
               variant="outlined"
               type="text"
+              error={errors.job?.message != undefined}
+              helperText={<ErrorMessage errors={errors} name="job" />}
               {...register("job")}
-              required
             />
           )}
         />
       </div>
-
       <div>
         <Autocomplete
           freeSolo
@@ -129,35 +151,35 @@ const RecordForm = () => {
               label="Localisation"
               variant="outlined"
               type="text"
+              error={errors.city?.message != undefined}
+              helperText={<ErrorMessage errors={errors} name="city" />}
               {...register("city")}
-              required
             />
           )}
         />
       </div>
-
       <div>
         <TextField
           fullWidth
           label="Rémunération annuel brut en €"
           variant="outlined"
           type="number"
+          error={errors.salary?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="salary" />}
           {...register("salary")}
-          required
         />
       </div>
-
       <div>
         <TextField
           fullWidth
           label="Expérience en années"
           variant="outlined"
           type="number"
+          error={errors.experience?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="experience" />}
           {...register("experience")}
-          required
         />
       </div>
-
       <div>
         <TextField
           fullWidth
@@ -165,8 +187,9 @@ const RecordForm = () => {
           variant="outlined"
           select
           defaultValue="-1"
+          error={errors.study_level?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="study_level" />}
           {...register("study_level")}
-          required
         >
           {Object.keys(StudyLevelData).map((index) => (
             <MenuItem value={index} key={index}>
@@ -175,7 +198,6 @@ const RecordForm = () => {
           ))}
         </TextField>
       </div>
-
       <div>
         <Typography id="note-slider" gutterBottom>
           Note de l'entreprise
@@ -193,11 +215,9 @@ const RecordForm = () => {
           {...register("note")}
         />
       </div>
-
       <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={isLoading}>
         Ajouter le métier
       </Button>
-
       <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
         Réinitialiser
       </Button>

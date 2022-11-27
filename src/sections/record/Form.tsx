@@ -216,7 +216,7 @@ const RecordForm = () => {
         />
       </div>
       <Button variant="contained" color="primary" sx={{ my: 1, mx: 1.5 }} type="submit" disabled={isLoading}>
-        Ajouter le métier
+        Partager mon salaire
       </Button>
       <Button variant="contained" color="secondary" sx={{ my: 1, mx: 1.5 }} type="reset">
         Réinitialiser

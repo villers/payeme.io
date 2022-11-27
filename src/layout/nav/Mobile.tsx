@@ -58,7 +58,7 @@ const Mobile = ({ handleLogout, authUser }: Props) => {
             </ListItemButton>
             <ListItemButton>
               <Link href={Routes.create} variant="button" sx={{ my: 1, mx: 1.5 }}>
-                Ajouter un Métier
+                Partager mon salaire
               </Link>
             </ListItemButton>
           </List>

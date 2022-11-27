@@ -7,7 +7,7 @@ import RecordForm from "@/sections/record/Form";
 const ScreenRecordCreate = () => {
   return (
     <ReCaptchaProvider>
-      <Page title="Ajouter un métier">
+      <Page title="Partager mon salaire">
         <Container maxWidth="sm" sx={{ marginY: 3 }}>
           <RecordForm />
         </Container>

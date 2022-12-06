@@ -25,6 +25,7 @@ type form = {
   note: number;
   userId: string;
   userEmail: string;
+  gender: string;
 };
 
 export const addJob = functions
@@ -44,7 +45,6 @@ export const addJob = functions
       userId: data.userId,
       userEmail: data.userEmail,
     };
-
 
     // check if company exist or create
     let companyRef = await findDocumentById(TABLE_COMPANIES, data.company);
@@ -79,6 +79,7 @@ export const addJob = functions
       study_level: data.study_level,
       note: data.note,
       experience: data.experience,
+      gender: data.gender,
       userId: userData.userId,
       userEmail: userData.userEmail,
       createdAt: getTimestampNow(),

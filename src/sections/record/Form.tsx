@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
+import { GenreData } from "@/components/Genre";
 import LoadingScreen from "@/components/LoadingSreeen";
 import { StudyLevelData } from "@/components/StudyLevel";
 import { useStateContext } from "@/context";
@@ -25,6 +26,7 @@ type addJobQuery = {
   city: string;
   note: number;
   experience: number;
+  genre: string;
 };
 
 const RecordForm = () => {
@@ -62,6 +64,7 @@ const RecordForm = () => {
       city: yup.string().required(),
       note: yup.number().min(0).max(5).required(),
       experience: yup.number().required(),
+      genre: yup.mixed().oneOf(["m", "f", "o"]).required(),
     })
     .required();
 
@@ -162,6 +165,24 @@ const RecordForm = () => {
             />
           )}
         />
+      </div>
+      <div>
+        <TextField
+          fullWidth
+          label="Genre"
+          variant="outlined"
+          select
+          defaultValue="m"
+          error={errors.genre?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="genre" />}
+          {...register("genre")}
+        >
+          {Object.keys(GenreData).map((index) => (
+            <MenuItem value={index} key={index}>
+              {GenreData[index]}
+            </MenuItem>
+          ))}
+        </TextField>
       </div>
       <div>
         <TextField

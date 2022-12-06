@@ -1,10 +1,12 @@
 import increaseLevel from "@iconify/icons-carbon/increase-level";
 import locationIcon from "@iconify/icons-carbon/location";
 import moneyIcon from "@iconify/icons-carbon/money";
+import personIcon from "@iconify/icons-carbon/person";
 import starIcon from "@iconify/icons-carbon/star";
 import learnIcone from "@iconify/icons-dashicons/welcome-learn-more";
 import { Card, Divider, Grid, Link, Stack, Typography } from "@mui/material";
 
+import GenreType from "@/components/Genre";
 import Iconify from "@/components/Iconify";
 import StudyLevel from "@/components/StudyLevel";
 import TextIconLabel from "@/components/TextIconLabel";
@@ -16,7 +18,7 @@ type Props = {
 };
 
 const HomeItem = ({ record }: Props) => {
-  const { job, salary, city, company, note, study_level, experience, createdAt, jobRef, companyRef } = record;
+  const { job, salary, city, company, note, study_level, experience, genre, createdAt, jobRef, companyRef } = record;
 
   return (
     <Card>
@@ -67,6 +69,14 @@ const HomeItem = ({ record }: Props) => {
           <TextIconLabel
             icon={<Iconify icon={starIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
             value={<span>{note}/5</span>}
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          <TextIconLabel
+            sx={{ textTransform: "none" }}
+            icon={<Iconify icon={personIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
+            value={<GenreType index={genre} />}
           />
         </Grid>
 

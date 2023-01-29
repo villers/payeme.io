@@ -6,6 +6,7 @@ import starIcon from "@iconify/icons-carbon/star";
 import learnIcone from "@iconify/icons-dashicons/welcome-learn-more";
 import { Card, Divider, Grid, Link, Stack, Typography } from "@mui/material";
 
+import ContractType from "@/components/Contact";
 import GenreType from "@/components/Genre";
 import Iconify from "@/components/Iconify";
 import StudyLevel from "@/components/StudyLevel";
@@ -18,7 +19,8 @@ type Props = {
 };
 
 const HomeItem = ({ record }: Props) => {
-  const { job, salary, city, company, note, study_level, experience, genre, createdAt, jobRef, companyRef } = record;
+  const { job, salary, contract, city, company, note, study_level, experience, genre, createdAt, jobRef, companyRef } =
+    record;
 
   return (
     <Card>
@@ -82,8 +84,13 @@ const HomeItem = ({ record }: Props) => {
 
         <Grid item xs={6}>
           <TextIconLabel
+            sx={{ textTransform: "none" }}
             icon={<Iconify icon={moneyIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
-            value={<span>{salary} €</span>}
+            value={
+              <span>
+                {salary} {ContractType({ index: contract })}
+              </span>
+            }
           />
         </Grid>
 

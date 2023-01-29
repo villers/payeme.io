@@ -1,13 +1,25 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Autocomplete, Box, Button, MenuItem, Slider, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  FormControlLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Slider,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
+import { ContractData } from "@/components/Contact";
 import { GenreData } from "@/components/Genre";
 import LoadingScreen from "@/components/LoadingSreeen";
 import { StudyLevelData } from "@/components/StudyLevel";
@@ -27,6 +39,7 @@ type addJobQuery = {
   note: number;
   experience: number;
   genre: string;
+  contract: string;
 };
 
 const RecordForm = () => {
@@ -34,6 +47,7 @@ const RecordForm = () => {
     state: { authUser },
   } = useStateContext();
 
+  const [labelSalaire, setLabelSalaire] = useState(ContractData["s"].label);
   const navigate = useNavigate();
 
   const captchaAction = "addJob";
@@ -65,16 +79,19 @@ const RecordForm = () => {
       note: yup.number().min(0).max(5).required(),
       experience: yup.number().required(),
       genre: yup.mixed().oneOf(["m", "f", "o"]).required(),
+      contract: yup.mixed().oneOf(["s", "f", "o"]).required(),
     })
     .required();
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<addJobQuery>({
     resolver: yupResolver(schema),
   });
+
   const submitForm: SubmitHandler<addJobQuery> = useCallback(
     async (data) => {
       if (!executeRecaptcha) {
@@ -187,7 +204,26 @@ const RecordForm = () => {
       <div>
         <TextField
           fullWidth
-          label="Rémunération annuel brut en €"
+          label="Type de contract"
+          variant="outlined"
+          select
+          defaultValue="s"
+          error={errors.contract?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="contract" />}
+          {...register("contract")}
+          onChange={(elem) => setLabelSalaire(ContractData[elem.target.value].label)}
+        >
+          {Object.keys(ContractData).map((index) => (
+            <MenuItem value={index} key={index}>
+              {ContractData[index].type}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
+      <div>
+        <TextField
+          fullWidth
+          label={labelSalaire}
           variant="outlined"
           type="number"
           error={errors.salary?.message != undefined}

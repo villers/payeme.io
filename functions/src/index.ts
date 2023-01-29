@@ -18,6 +18,7 @@ import {
 type form = {
   company: string;
   job: string;
+  contract: string;
   salary: number;
   study_level: string;
   city: string;
@@ -76,6 +77,7 @@ export const addJob = functions
       company: data.company,
       job: data.job,
       salary: data.salary,
+      contract: data.contract,
       study_level: data.study_level,
       note: data.note,
       experience: data.experience,

@@ -1,8 +1,9 @@
 import searchIcon from "@iconify/icons-carbon/search";
-import { Autocomplete, Box, Button, Stack, TextField, styled } from "@mui/material";
+import { Autocomplete, Box, Button, MenuItem, Select, Stack, TextField, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { ContractData } from "@/components/Contact";
 import Iconify from "@/components/Iconify";
 import { City, Company, Job } from "@/interfaces";
 import { CitiesService, CompaniesService, JobsService } from "@/services/firebase/database";
@@ -17,6 +18,7 @@ const RootStyle = styled("div")(() => ({
 
 export type form = {
   company: string;
+  contract: string;
   job: string;
   city: string;
 };
@@ -33,6 +35,9 @@ const HomeFilters = ({ setFilters }: Props) => {
   }
 
   const submitForm: SubmitHandler<form> = async (data) => {
+    if (data.contract === "all") {
+      data.contract = "";
+    }
     setFilters(data);
   };
 
@@ -79,6 +84,19 @@ const HomeFilters = ({ setFilters }: Props) => {
               <TextField {...params} variant="outlined" label="Localisation" type="text" {...register("city")} />
             )}
           />
+        </RootStyle>
+        <RootStyle>
+          <Select label="contract" defaultValue="all" {...register("contract")}>
+            <MenuItem key={0} value="all">
+              Tous
+            </MenuItem>
+
+            {Object.keys(ContractData).map((key: string) => (
+              <MenuItem key={key} value={key}>
+                {ContractData[key].type}
+              </MenuItem>
+            ))}
+          </Select>
         </RootStyle>
         <Button
           size="large"

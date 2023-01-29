@@ -13,6 +13,7 @@ const ScreenHome = () => {
     job: "",
     city: "",
     company: "",
+    contract: "",
   });
 
   const { data, isError, isLoading, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<

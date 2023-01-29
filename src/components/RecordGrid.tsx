@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 
+import ContractType from "@/components/Contact";
 import GenreType from "@/components/Genre";
 import StudyLevel from "@/components/StudyLevel";
 import { Record } from "@/interfaces";
@@ -14,7 +15,14 @@ const columns: GridColDef[] = [
     width: 100,
     renderCell: (params: GridRenderCellParams<Date>) => <GenreType index={params.row[params.field]} />,
   },
-  { field: "salary", headerName: "Rémunération", width: 100, type: "number" },
+  { field: "salary", headerName: "Rémunération", width: 80, type: "number" },
+  {
+    field: "contract",
+    headerName: "Contract",
+    width: 80,
+    type: "string",
+    renderCell: (params: GridRenderCellParams) => <ContractType index={params.row[params.field]} type="type" />,
+  },
   { field: "experience", headerName: "Experience", width: 100, type: "number" },
   {
     field: "study_level",

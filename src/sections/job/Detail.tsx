@@ -4,11 +4,11 @@ import { Job } from "@/interfaces";
 
 type Props = {
   job: Job;
-  jobCount: number;
   avgSalary: number;
+  avgTJM: number;
 };
 
-const JobDetail = ({ job, avgSalary, jobCount }: Props) => {
+const JobDetail = ({ job, avgSalary, avgTJM }: Props) => {
   return (
     <section>
       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -18,8 +18,9 @@ const JobDetail = ({ job, avgSalary, jobCount }: Props) => {
       <Typography variant="h4" sx={{ mb: 3 }}>
         Le salaires moyen est de {avgSalary.toFixed(1)} €
       </Typography>
+
       <Typography variant="h4" sx={{ mb: 3 }}>
-        {jobCount} salaires
+        Le TJM moyen est de {avgTJM.toFixed(1)} €
       </Typography>
     </section>
   );

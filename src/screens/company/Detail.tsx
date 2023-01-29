@@ -10,20 +10,12 @@ import RecordGrid from "@/components/RecordGrid";
 import { Company, Record } from "@/interfaces";
 import ScreenNotfound from "@/screens/NotFound";
 import CompanyDetail from "@/sections/company/Detail";
+import { calculateAvgSalary, calculateAvgTJM } from "@/services/filter";
 import { CompaniesService, RecordsService } from "@/services/firebase/database";
 
 type ParamUrl = {
   name: string;
 };
-
-const calculateAvgSalary = (records: Record[]) => {
-  const sum = records.reduce((accumulator: number, current: Record) => {
-    return accumulator + parseInt(current.salary);
-  }, 0);
-
-  return sum / records.length;
-};
-
 const ScreenCompanyDetail = () => {
   let { name } = useParams<ParamUrl>();
 
@@ -48,6 +40,11 @@ const ScreenCompanyDetail = () => {
     setAvgSalary(calculateAvgSalary(records.data || []));
   }, [records]);
 
+  const [avgTJM, setAvgTJM] = useState(0);
+  useEffect(() => {
+    setAvgTJM(calculateAvgTJM(records.data || []));
+  }, [records]);
+
   if (company.isError || companyRef.isError || records.isError) {
     return <ScreenNotfound />;
   }
@@ -60,7 +57,7 @@ const ScreenCompanyDetail = () => {
     <Page title={`Entreprise - ${name}`}>
       <Container sx={{ marginY: 3 }}>
         <Stack spacing={5}>
-          <CompanyDetail company={company.data} avgSalary={avgSalary} companyCount={records.data.length} />
+          <CompanyDetail company={company.data} avgSalary={avgSalary} avgTJM={avgTJM} />
           <RecordGrid data={records.data} />
         </Stack>
       </Container>

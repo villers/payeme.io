@@ -23,6 +23,7 @@ export interface Record {
   jobRef: DocumentReference<Job>;
   job: string;
   note: string;
+  contract: string;
   salary: string;
   genre: string;
   study_level: string;

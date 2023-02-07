@@ -25,7 +25,7 @@ export interface Record {
   note: string;
   contract: string;
   salary: string;
-  genre: string;
+  gender: string;
   study_level: string;
   experience: string;
   createdAt: Timestamp;

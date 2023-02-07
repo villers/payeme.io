@@ -19,7 +19,7 @@ type Props = {
 };
 
 const HomeItem = ({ record }: Props) => {
-  const { job, salary, contract, city, company, note, study_level, experience, genre, createdAt, jobRef, companyRef } =
+  const { job, salary, contract, city, company, note, study_level, experience, gender, createdAt, jobRef, companyRef } =
     record;
 
   return (
@@ -78,7 +78,7 @@ const HomeItem = ({ record }: Props) => {
           <TextIconLabel
             sx={{ textTransform: "none" }}
             icon={<Iconify icon={personIcon} sx={{ width: 20, height: 20, mr: 1 }} />}
-            value={<GenreType index={genre} />}
+            value={<GenreType index={gender} />}
           />
         </Grid>
 

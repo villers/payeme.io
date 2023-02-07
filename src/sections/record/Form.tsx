@@ -38,7 +38,7 @@ type addJobQuery = {
   city: string;
   note: number;
   experience: number;
-  genre: string;
+  gender: string;
   contract: string;
 };
 
@@ -78,7 +78,7 @@ const RecordForm = () => {
       city: yup.string().required(),
       note: yup.number().min(0).max(5).required(),
       experience: yup.number().required(),
-      genre: yup.mixed().oneOf(["m", "f", "o"]).required(),
+      gender: yup.mixed().oneOf(["m", "f", "o"]).required(),
       contract: yup.mixed().oneOf(["s", "f", "o"]).required(),
     })
     .required();
@@ -190,9 +190,9 @@ const RecordForm = () => {
           variant="outlined"
           select
           defaultValue="m"
-          error={errors.genre?.message != undefined}
-          helperText={<ErrorMessage errors={errors} name="genre" />}
-          {...register("genre")}
+          error={errors.gender?.message != undefined}
+          helperText={<ErrorMessage errors={errors} name="gender" />}
+          {...register("gender")}
         >
           {Object.keys(GenreData).map((index) => (
             <MenuItem value={index} key={index}>
